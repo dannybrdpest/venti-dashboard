@@ -65,7 +65,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <div class="header">
   <h1>Venti — dashboard</h1>
-  <span class="updated">Last updated: June 24, 2026 09:03 AM</span>
+  <span class="updated">Last updated: June 24, 2026 09:13 AM</span>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -196,19 +196,17 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
       <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-attr-3">—</div></div>
     </div>
     <div class="card">
-      <div class="card-sub">Cumulative attrition since selected start date</div>
-      <div class="chart-wrap" style="height:260px;">
-        <div class="placeholder-note">Attrition trend chart — populates once API is connected</div>
-      </div>
+      <div class="card-sub">Monthly cancellations since selected start date</div>
+      <div class="chart-wrap" style="height:260px;"><canvas id="c-attrition" role="img" aria-label="Monthly attrition trend"></canvas></div>
     </div>
   </div>
 
   <div class="section">
     <div class="section-title">Attrition by cohort</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">0–12 mo retention — total</div><div class="kpi-value" id="kpi-ret012-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">12–24 mo retention — total</div><div class="kpi-value" id="kpi-ret1224-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">24+ mo retention — total</div><div class="kpi-value" id="kpi-ret24p-total">—</div></div>
+      <div class="kpi"><div class="kpi-label">0–12 mo retention — total</div><div class="kpi-value" id="kpi-ret012-total">67.2%</div></div>
+      <div class="kpi"><div class="kpi-label">12–24 mo retention — total</div><div class="kpi-value" id="kpi-ret1224-total">51.9%</div></div>
+      <div class="kpi"><div class="kpi-label">24+ mo retention — total</div><div class="kpi-value" id="kpi-ret24p-total">39.4%</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -279,6 +277,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <script>
 Chart.register(ChartDataLabels);
+const RETENTION_DATA = {"cohort": {"total": {"pct": [67.2, 51.9, 39.4], "active": [1374, 305, 1730], "total": [2046, 588, 4394]}, "sg": {"pct": [61.1, 53.3, 39.5], "active": [337, 298, 1567], "total": [552, 559, 3972]}, "den": {"pct": [69.4, 24.1, 38.6], "active": [1037, 7, 163], "total": [1494, 29, 422]}}, "tranche": {"total": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [26, 783, 426, 422, 193, 450, 1109], "cancelled": [83, 1165, 745, 601, 174, 377, 474]}, "sg": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [23, 713, 380, 384, 186, 436, 80], "cancelled": [77, 1054, 678, 536, 160, 345, 31]}, "den": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [3, 70, 46, 38, 7, 14, 1029], "cancelled": [6, 111, 67, 65, 14, 32, 443]}}, "monthly": {"total": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 3, "a": 1}, {"m": "2020-11-01", "c": 6, "a": 40}, {"m": "2020-12-01", "c": 2, "a": 66}, {"m": "2021-01-01", "c": 7, "a": 98}, {"m": "2021-02-01", "c": 4, "a": 116}, {"m": "2021-03-01", "c": 17, "a": 195}, {"m": "2021-04-01", "c": 30, "a": 332}, {"m": "2021-05-01", "c": 32, "a": 495}, {"m": "2021-06-01", "c": 26, "a": 765}, {"m": "2021-07-01", "c": 29, "a": 1099}, {"m": "2021-08-01", "c": 27, "a": 1208}, {"m": "2021-09-01", "c": 19, "a": 1365}, {"m": "2021-10-01", "c": 21, "a": 1541}, {"m": "2021-11-01", "c": 23, "a": 1705}, {"m": "2021-12-01", "c": 12, "a": 1743}, {"m": "2022-01-01", "c": 24, "a": 1799}, {"m": "2022-02-01", "c": 25, "a": 1782}, {"m": "2022-03-01", "c": 27, "a": 1818}, {"m": "2022-04-01", "c": 26, "a": 1906}, {"m": "2022-05-01", "c": 68, "a": 1985}, {"m": "2022-06-01", "c": 68, "a": 2250}, {"m": "2022-07-01", "c": 61, "a": 2255}, {"m": "2022-08-01", "c": 55, "a": 2309}, {"m": "2022-09-01", "c": 37, "a": 2406}, {"m": "2022-10-01", "c": 39, "a": 2442}, {"m": "2022-11-01", "c": 29, "a": 2473}, {"m": "2022-12-01", "c": 38, "a": 2489}, {"m": "2023-01-01", "c": 31, "a": 2473}, {"m": "2023-02-01", "c": 28, "a": 2476}, {"m": "2023-03-01", "c": 31, "a": 2494}, {"m": "2023-04-01", "c": 38, "a": 2555}, {"m": "2023-05-01", "c": 63, "a": 2671}, {"m": "2023-06-01", "c": 67, "a": 2815}, {"m": "2023-07-01", "c": 52, "a": 2991}, {"m": "2023-08-01", "c": 49, "a": 3051}, {"m": "2023-09-01", "c": 37, "a": 3033}, {"m": "2023-10-01", "c": 30, "a": 3030}, {"m": "2023-11-01", "c": 35, "a": 3024}, {"m": "2023-12-01", "c": 21, "a": 3026}, {"m": "2024-01-01", "c": 37, "a": 3014}, {"m": "2024-02-01", "c": 49, "a": 2985}, {"m": "2024-03-01", "c": 45, "a": 2954}, {"m": "2024-04-01", "c": 59, "a": 2938}, {"m": "2024-05-01", "c": 46, "a": 2903}, {"m": "2024-06-01", "c": 18, "a": 2921}, {"m": "2024-07-01", "c": 27, "a": 2955}, {"m": "2024-08-01", "c": 42, "a": 2969}, {"m": "2024-09-01", "c": 35, "a": 2957}, {"m": "2024-10-01", "c": 25, "a": 2957}, {"m": "2024-11-01", "c": 25, "a": 2978}, {"m": "2024-12-01", "c": 21, "a": 2961}, {"m": "2025-01-01", "c": 18, "a": 2952}, {"m": "2025-02-01", "c": 28, "a": 2952}, {"m": "2025-03-01", "c": 25, "a": 2945}, {"m": "2025-04-01", "c": 31, "a": 2969}, {"m": "2025-05-01", "c": 44, "a": 3064}, {"m": "2025-06-01", "c": 48, "a": 3170}, {"m": "2025-07-01", "c": 46, "a": 3246}, {"m": "2025-08-01", "c": 45, "a": 3343}, {"m": "2025-09-01", "c": 33, "a": 3375}, {"m": "2025-10-01", "c": 51, "a": 3406}, {"m": "2025-11-01", "c": 29, "a": 3397}, {"m": "2025-12-01", "c": 25, "a": 3376}, {"m": "2026-01-01", "c": 30, "a": 3356}, {"m": "2026-02-01", "c": 36, "a": 3334}, {"m": "2026-03-01", "c": 307, "a": 3300}, {"m": "2026-04-01", "c": 82, "a": 3043}, {"m": "2026-05-01", "c": 172, "a": 3189}, {"m": "2026-06-01", "c": 165, "a": 3613}], "sg": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 2, "a": 1}, {"m": "2020-11-01", "c": 4, "a": 38}, {"m": "2020-12-01", "c": 2, "a": 63}, {"m": "2021-01-01", "c": 4, "a": 92}, {"m": "2021-02-01", "c": 3, "a": 110}, {"m": "2021-03-01", "c": 11, "a": 186}, {"m": "2021-04-01", "c": 18, "a": 316}, {"m": "2021-05-01", "c": 21, "a": 468}, {"m": "2021-06-01", "c": 18, "a": 715}, {"m": "2021-07-01", "c": 23, "a": 1035}, {"m": "2021-08-01", "c": 19, "a": 1137}, {"m": "2021-09-01", "c": 17, "a": 1286}, {"m": "2021-10-01", "c": 16, "a": 1441}, {"m": "2021-11-01", "c": 20, "a": 1596}, {"m": "2021-12-01", "c": 11, "a": 1635}, {"m": "2022-01-01", "c": 24, "a": 1678}, {"m": "2022-02-01", "c": 25, "a": 1661}, {"m": "2022-03-01", "c": 27, "a": 1681}, {"m": "2022-04-01", "c": 26, "a": 1763}, {"m": "2022-05-01", "c": 64, "a": 1834}, {"m": "2022-06-01", "c": 65, "a": 2066}, {"m": "2022-07-01", "c": 60, "a": 2061}, {"m": "2022-08-01", "c": 55, "a": 2106}, {"m": "2022-09-01", "c": 37, "a": 2196}, {"m": "2022-10-01", "c": 39, "a": 2230}, {"m": "2022-11-01", "c": 29, "a": 2250}, {"m": "2022-12-01", "c": 38, "a": 2265}, {"m": "2023-01-01", "c": 31, "a": 2247}, {"m": "2023-02-01", "c": 28, "a": 2244}, {"m": "2023-03-01", "c": 31, "a": 2258}, {"m": "2023-04-01", "c": 36, "a": 2313}, {"m": "2023-05-01", "c": 52, "a": 2417}, {"m": "2023-06-01", "c": 52, "a": 2536}, {"m": "2023-07-01", "c": 50, "a": 2699}, {"m": "2023-08-01", "c": 49, "a": 2755}, {"m": "2023-09-01", "c": 37, "a": 2735}, {"m": "2023-10-01", "c": 30, "a": 2731}, {"m": "2023-11-01", "c": 35, "a": 2725}, {"m": "2023-12-01", "c": 20, "a": 2727}, {"m": "2024-01-01", "c": 37, "a": 2716}, {"m": "2024-02-01", "c": 49, "a": 2686}, {"m": "2024-03-01", "c": 45, "a": 2655}, {"m": "2024-04-01", "c": 59, "a": 2638}, {"m": "2024-05-01", "c": 45, "a": 2602}, {"m": "2024-06-01", "c": 18, "a": 2608}, {"m": "2024-07-01", "c": 26, "a": 2641}, {"m": "2024-08-01", "c": 42, "a": 2655}, {"m": "2024-09-01", "c": 35, "a": 2642}, {"m": "2024-10-01", "c": 25, "a": 2642}, {"m": "2024-11-01", "c": 25, "a": 2661}, {"m": "2024-12-01", "c": 21, "a": 2644}, {"m": "2025-01-01", "c": 18, "a": 2635}, {"m": "2025-02-01", "c": 28, "a": 2635}, {"m": "2025-03-01", "c": 25, "a": 2627}, {"m": "2025-04-01", "c": 31, "a": 2649}, {"m": "2025-05-01", "c": 42, "a": 2737}, {"m": "2025-06-01", "c": 47, "a": 2831}, {"m": "2025-07-01", "c": 46, "a": 2903}, {"m": "2025-08-01", "c": 44, "a": 2994}, {"m": "2025-09-01", "c": 33, "a": 3022}, {"m": "2025-10-01", "c": 51, "a": 3047}, {"m": "2025-11-01", "c": 29, "a": 3038}, {"m": "2025-12-01", "c": 25, "a": 3017}, {"m": "2026-01-01", "c": 30, "a": 2997}, {"m": "2026-02-01", "c": 36, "a": 2975}, {"m": "2026-03-01", "c": 307, "a": 2941}, {"m": "2026-04-01", "c": 49, "a": 2680}, {"m": "2026-05-01", "c": 57, "a": 2653}, {"m": "2026-06-01", "c": 54, "a": 2612}], "den": [{"m": "2020-10-01", "c": 1, "a": 0}, {"m": "2020-11-01", "c": 2, "a": 2}, {"m": "2020-12-01", "c": 0, "a": 3}, {"m": "2021-01-01", "c": 3, "a": 6}, {"m": "2021-02-01", "c": 1, "a": 6}, {"m": "2021-03-01", "c": 6, "a": 9}, {"m": "2021-04-01", "c": 12, "a": 16}, {"m": "2021-05-01", "c": 11, "a": 27}, {"m": "2021-06-01", "c": 8, "a": 50}, {"m": "2021-07-01", "c": 6, "a": 64}, {"m": "2021-08-01", "c": 8, "a": 71}, {"m": "2021-09-01", "c": 2, "a": 79}, {"m": "2021-10-01", "c": 5, "a": 100}, {"m": "2021-11-01", "c": 3, "a": 109}, {"m": "2021-12-01", "c": 1, "a": 108}, {"m": "2022-01-01", "c": 0, "a": 121}, {"m": "2022-02-01", "c": 0, "a": 121}, {"m": "2022-03-01", "c": 0, "a": 137}, {"m": "2022-04-01", "c": 0, "a": 143}, {"m": "2022-05-01", "c": 4, "a": 151}, {"m": "2022-06-01", "c": 3, "a": 184}, {"m": "2022-07-01", "c": 1, "a": 194}, {"m": "2022-08-01", "c": 0, "a": 203}, {"m": "2022-09-01", "c": 0, "a": 210}, {"m": "2022-10-01", "c": 0, "a": 212}, {"m": "2022-11-01", "c": 0, "a": 223}, {"m": "2022-12-01", "c": 0, "a": 224}, {"m": "2023-01-01", "c": 0, "a": 226}, {"m": "2023-02-01", "c": 0, "a": 232}, {"m": "2023-03-01", "c": 0, "a": 236}, {"m": "2023-04-01", "c": 2, "a": 242}, {"m": "2023-05-01", "c": 11, "a": 254}, {"m": "2023-06-01", "c": 15, "a": 279}, {"m": "2023-07-01", "c": 2, "a": 292}, {"m": "2023-08-01", "c": 0, "a": 296}, {"m": "2023-09-01", "c": 0, "a": 298}, {"m": "2023-10-01", "c": 0, "a": 299}, {"m": "2023-11-01", "c": 0, "a": 299}, {"m": "2023-12-01", "c": 1, "a": 299}, {"m": "2024-01-01", "c": 0, "a": 298}, {"m": "2024-02-01", "c": 0, "a": 299}, {"m": "2024-03-01", "c": 0, "a": 299}, {"m": "2024-04-01", "c": 0, "a": 300}, {"m": "2024-05-01", "c": 1, "a": 301}, {"m": "2024-06-01", "c": 0, "a": 313}, {"m": "2024-07-01", "c": 1, "a": 314}, {"m": "2024-08-01", "c": 0, "a": 314}, {"m": "2024-09-01", "c": 0, "a": 315}, {"m": "2024-10-01", "c": 0, "a": 315}, {"m": "2024-11-01", "c": 0, "a": 317}, {"m": "2024-12-01", "c": 0, "a": 317}, {"m": "2025-01-01", "c": 0, "a": 317}, {"m": "2025-02-01", "c": 0, "a": 317}, {"m": "2025-03-01", "c": 0, "a": 318}, {"m": "2025-04-01", "c": 0, "a": 320}, {"m": "2025-05-01", "c": 2, "a": 327}, {"m": "2025-06-01", "c": 1, "a": 339}, {"m": "2025-07-01", "c": 0, "a": 343}, {"m": "2025-08-01", "c": 1, "a": 349}, {"m": "2025-09-01", "c": 0, "a": 353}, {"m": "2025-10-01", "c": 0, "a": 359}, {"m": "2025-11-01", "c": 0, "a": 359}, {"m": "2025-12-01", "c": 0, "a": 359}, {"m": "2026-01-01", "c": 0, "a": 359}, {"m": "2026-02-01", "c": 0, "a": 359}, {"m": "2026-03-01", "c": 0, "a": 359}, {"m": "2026-04-01", "c": 33, "a": 363}, {"m": "2026-05-01", "c": 115, "a": 536}, {"m": "2026-06-01", "c": 111, "a": 1001}]}};
 const MRR_RAW = {"total": 235229.02000000002, "1": 173484.69, "3": 61744.33};
 
 const OFFICES = ['St. George','Denver'];
@@ -386,25 +385,90 @@ new Chart(document.getElementById('c-age'), { type:'bar',
   data:{ labels:OFFICES, datasets:[{ data:PLACEHOLDER_AGE, backgroundColor:'#BA7517', borderRadius:3, datalabels:dlMonths }] },
   options:{ ...base, layout:{ padding:{ top:20 } }, scales:{ x:sx(), y:{ ...sy(v=>v+'mo'), grid:{ color:gridColor } } } } });
 
-new Chart(document.getElementById('c-cohort'), { type:'bar',
-  data:{ labels:OFFICES, datasets:[
-    { label:'0–12 mo',  data:PLACEHOLDER_RET012,  backgroundColor:'#378ADD', borderRadius:3, datalabels:dlPct },
-    { label:'12–24 mo', data:PLACEHOLDER_RET1224, backgroundColor:'#1D9E75', borderRadius:3, datalabels:dlPct },
-    { label:'24+ mo',   data:PLACEHOLDER_RET24P,  backgroundColor:'#BA7517', borderRadius:3, datalabels:dlPct }
-  ]},
-  options:{ ...base, layout:{ padding:{ top:20 } }, scales:{ x:sx(), y:{ ...sy(v=>v+'%'), min:0, max:100, grid:{ color:gridColor } } } } });
+// ── Retention charts (populated from RETENTION_DATA injected by pull script) ──
+const RD = typeof RETENTION_DATA !== 'undefined' ? RETENTION_DATA : null;
 
-function trancheChart(id, active, cancel) {
+// Cohort chart — retention % per office per age bucket
+if (RD) {
+  const cohortLabels = ['0–12 mo', '12–24 mo', '24+ mo'];
+  new Chart(document.getElementById('c-cohort'), { type:'bar',
+    data:{ labels:OFFICES, datasets:[
+      { label:'0–12 mo',  data:[RD.cohort.sg.pct[0], RD.cohort.den.pct[0]], backgroundColor:'#378ADD', borderRadius:3, datalabels:dlPct },
+      { label:'12–24 mo', data:[RD.cohort.sg.pct[1], RD.cohort.den.pct[1]], backgroundColor:'#1D9E75', borderRadius:3, datalabels:dlPct },
+      { label:'24+ mo',   data:[RD.cohort.sg.pct[2], RD.cohort.den.pct[2]], backgroundColor:'#BA7517', borderRadius:3, datalabels:dlPct }
+    ]},
+    options:{ ...base, layout:{ padding:{ top:20 } }, scales:{ x:sx(), y:{ ...sy(v=>v+'%'), min:0, max:100, grid:{ color:gridColor } } } } });
+} else {
+  new Chart(document.getElementById('c-cohort'), { type:'bar',
+    data:{ labels:OFFICES, datasets:[
+      { label:'0–12 mo',  data:[0,0], backgroundColor:'#378ADD', borderRadius:3, datalabels:dlPct },
+      { label:'12–24 mo', data:[0,0], backgroundColor:'#1D9E75', borderRadius:3, datalabels:dlPct },
+      { label:'24+ mo',   data:[0,0], backgroundColor:'#BA7517', borderRadius:3, datalabels:dlPct }
+    ]},
+    options:{ ...base, layout:{ padding:{ top:20 } }, scales:{ x:sx(), y:{ ...sy(v=>v+'%'), min:0, max:100, grid:{ color:gridColor } } } } });
+}
+
+// Tranche charts
+function trancheChart(id, tr) {
+  if (!tr) return;
   new Chart(document.getElementById(id), { type:'bar',
-    data:{ labels:PLACEHOLDER_TRANCHES, datasets:[
-      { label:'Active',    data:active, backgroundColor:'#378ADD', borderRadius:3, datalabels:dlCount },
-      { label:'Cancelled', data:cancel, backgroundColor:'#D3D1C7', borderRadius:3, datalabels:{ display:false } }
+    data:{ labels:tr.years, datasets:[
+      { label:'Active',    data:tr.active,    backgroundColor:'#378ADD', borderRadius:3, datalabels:dlCount },
+      { label:'Cancelled', data:tr.cancelled, backgroundColor:'#D3D1C7', borderRadius:3, datalabels:{ display:false } }
     ]},
     options:{ ...base, layout:{ padding:{ top:20 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()), grid:{ color:gridColor } } } } });
 }
-trancheChart('c-tranche',   PLACEHOLDER_TRANCHE_ACTIVE, PLACEHOLDER_TRANCHE_CANCEL);
-trancheChart('c-tranche-1', PLACEHOLDER_TRANCHE_ACTIVE, PLACEHOLDER_TRANCHE_CANCEL);
-trancheChart('c-tranche-3', PLACEHOLDER_TRANCHE_ACTIVE, PLACEHOLDER_TRANCHE_CANCEL);
+if (RD) {
+  trancheChart('c-tranche',   RD.tranche.total);
+  trancheChart('c-tranche-1', RD.tranche.sg);
+  trancheChart('c-tranche-3', RD.tranche.den);
+}
+
+// Attrition chart — monthly cancellations from selected start date
+let attritionChart = null;
+function buildAttritionChart(startDateStr) {
+  if (!RD) return;
+  const src = RD.monthly.total;
+  const filtered = src.filter(r => r.m >= startDateStr);
+  const labels = filtered.map(r => r.m.slice(0,7));
+  const sgFiltered = RD.monthly.sg.filter(r => r.m >= startDateStr);
+  const denFiltered = RD.monthly.den.filter(r => r.m >= startDateStr);
+
+  // Compute attrition KPIs
+  const activeAtStart = src.find(r => r.m >= startDateStr)?.a || 0;
+  const totalCancelled = filtered.reduce((s,r) => s+r.c, 0);
+  const months = filtered.length || 1;
+  const monthlyPct = activeAtStart > 0 ? (totalCancelled / activeAtStart / months * 100).toFixed(2) : '—';
+  document.getElementById('kpi-attr-total').textContent = monthlyPct + '%';
+
+  const sgStart = RD.monthly.sg.find(r => r.m >= startDateStr)?.a || 0;
+  const sgCancelled = sgFiltered.reduce((s,r) => s+r.c, 0);
+  const sgPct = sgStart > 0 ? (sgCancelled / sgStart / months * 100).toFixed(2) : '—';
+  document.getElementById('kpi-attr-1').textContent = sgPct + '%';
+
+  const denStart = RD.monthly.den.find(r => r.m >= startDateStr)?.a || 0;
+  const denCancelled = denFiltered.reduce((s,r) => s+r.c, 0);
+  const denPct = denStart > 0 ? (denCancelled / denStart / months * 100).toFixed(2) : '—';
+  document.getElementById('kpi-attr-3').textContent = denPct + '%';
+
+  const datasets = [
+    { label:'St. George', data:sgFiltered.map(r=>r.c), backgroundColor:'#378ADD', borderRadius:2, datalabels:{ display:false } },
+    { label:'Denver',     data:denFiltered.map(r=>r.c), backgroundColor:'#1D9E75', borderRadius:2, datalabels:{ display:false } },
+  ];
+  if (attritionChart) {
+    attritionChart.data.labels = labels;
+    attritionChart.data.datasets[0].data = datasets[0].data;
+    attritionChart.data.datasets[1].data = datasets[1].data;
+    attritionChart.update();
+  } else {
+    attritionChart = new Chart(document.getElementById('c-attrition'), { type:'bar',
+      data:{ labels, datasets },
+      options:{ ...base, plugins:{ ...base.plugins, legend:{ display:true, labels:{ color:tickColor, font:{size:11} } } },
+        scales:{ x:{ stacked:true, ...sx(), ticks:{ autoSkip:true, maxTicksLimit:18, maxRotation:45, color:tickColor, font:{size:10} } }, y:{ stacked:true, ...sy(v=>v), grid:{ color:gridColor } } } } });
+  }
+}
+document.getElementById('attrition-date').addEventListener('change', e => buildAttritionChart(e.target.value));
+buildAttritionChart(document.getElementById('attrition-date').value);
 </script>
 </body>
 </html>
