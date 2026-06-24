@@ -65,7 +65,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <div class="header">
   <h1>Venti — dashboard</h1>
-  <span class="updated">Last updated: —</span>
+  <span class="updated">Last updated: June 24, 2026 08:37 AM</span>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -77,9 +77,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Active recurring subscriptions</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">Total — all offices</div><div class="kpi-value" id="kpi-subs-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-subs-1">—</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-subs-3">—</div></div>
+      <div class="kpi"><div class="kpi-label">Total — all offices</div><div class="kpi-value" id="kpi-subs-total">2,564</div></div>
+      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-subs-1">1,357</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-subs-3">1,207</div></div>
     </div>
     <div class="card">
       <div class="chart-wrap" style="height:220px;"><canvas id="c-subs" role="img" aria-label="Active recurring subscriptions by office"></canvas></div>
@@ -95,14 +95,14 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
       <label>Red &lt; <input type="number" id="thresh-red" value="88" min="0" max="100" style="width:52px;"> %</label>
     </div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">ARR — total</div><div class="kpi-value" id="kpi-arr-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">MRR — total</div><div class="kpi-value" id="kpi-mrr-total">—</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — total</div><div class="kpi-value" id="kpi-arr-total">$1.47M</div></div>
+      <div class="kpi"><div class="kpi-label">MRR — total</div><div class="kpi-value" data-raw="78120.33" data-raw="170916.54" id="kpi-mrr-total">$170.9k</div></div>
       <div class="kpi"><div class="kpi-label">Collected — total</div><div class="kpi-value" id="kpi-collected-total">—</div><div class="kpi-sub" id="kpi-collected-pct-total">— of MRR</div></div>
-      <div class="kpi"><div class="kpi-label">ARR — St. George</div><div class="kpi-value" id="kpi-arr-1">—</div></div>
-      <div class="kpi"><div class="kpi-label">MRR — St. George</div><div class="kpi-value" id="kpi-mrr-1">—</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — St. George</div><div class="kpi-value" id="kpi-arr-1">$641.7k</div></div>
+      <div class="kpi"><div class="kpi-label">MRR — St. George</div><div class="kpi-value" data-raw="16376.0" data-raw="109172.21" id="kpi-mrr-1">$109.2k</div></div>
       <div class="kpi"><div class="kpi-label">Collected — St. George</div><div class="kpi-value" id="kpi-collected-1">—</div><div class="kpi-sub" id="kpi-collected-pct-1">— of MRR</div></div>
-      <div class="kpi"><div class="kpi-label">ARR — Denver</div><div class="kpi-value" id="kpi-arr-3">—</div></div>
-      <div class="kpi"><div class="kpi-label">MRR — Denver</div><div class="kpi-value" id="kpi-mrr-3">—</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — Denver</div><div class="kpi-value" id="kpi-arr-3">$827.0k</div></div>
+      <div class="kpi"><div class="kpi-label">MRR — Denver</div><div class="kpi-value" data-raw="61744.33" data-raw="61744.33" id="kpi-mrr-3">$61.7k</div></div>
       <div class="kpi"><div class="kpi-label">Collected — Denver</div><div class="kpi-value" id="kpi-collected-3">—</div><div class="kpi-sub" id="kpi-collected-pct-3">— of MRR</div></div>
     </div>
     <div class="two-col">
@@ -120,9 +120,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">ACV — avg annual contract value per customer</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">ACV — total avg</div><div class="kpi-value" id="kpi-acv-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">ACV — St. George</div><div class="kpi-value" id="kpi-acv-1">—</div></div>
-      <div class="kpi"><div class="kpi-label">ACV — Denver</div><div class="kpi-value" id="kpi-acv-3">—</div></div>
+      <div class="kpi"><div class="kpi-label">ACV — total avg</div><div class="kpi-value" id="kpi-acv-total">$572.81</div></div>
+      <div class="kpi"><div class="kpi-label">ACV — St. George</div><div class="kpi-value" id="kpi-acv-1">$472.86</div></div>
+      <div class="kpi"><div class="kpi-label">ACV — Denver</div><div class="kpi-value" id="kpi-acv-3">$685.19</div></div>
     </div>
     <div class="card">
       <div class="chart-wrap" style="height:180px;"><canvas id="c-acv" role="img" aria-label="ACV by office"></canvas></div>
@@ -132,9 +132,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Autopay %</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">Autopay — total</div><div class="kpi-value" id="kpi-ap-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-ap-1">—</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-ap-3">—</div></div>
+      <div class="kpi"><div class="kpi-label">Autopay — total</div><div class="kpi-value" id="kpi-ap-total">79.1%</div></div>
+      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-ap-1">79.6%</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-ap-3">78.3%</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -148,12 +148,12 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Active vs good customers</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">Active — total</div><div class="kpi-value" id="kpi-active-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">—</div><div class="kpi-sub" id="kpi-good-pct">—% of active</div></div>
-      <div class="kpi"><div class="kpi-label">Active — St. George</div><div class="kpi-value" id="kpi-active-1">—</div></div>
-      <div class="kpi"><div class="kpi-label">Good — St. George</div><div class="kpi-value" id="kpi-good-1">—</div></div>
-      <div class="kpi"><div class="kpi-label">Active — Denver</div><div class="kpi-value" id="kpi-active-3">—</div></div>
-      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">—</div></div>
+      <div class="kpi"><div class="kpi-label">Active — total</div><div class="kpi-value" id="kpi-active-total">2,112</div></div>
+      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">1,770</div><div class="kpi-sub" id="kpi-good-pct">83.8% of active</div></div>
+      <div class="kpi"><div class="kpi-label">Active — St. George</div><div class="kpi-value" id="kpi-active-1">1,351</div></div>
+      <div class="kpi"><div class="kpi-label">Good — St. George</div><div class="kpi-value" id="kpi-good-1">1,076</div></div>
+      <div class="kpi"><div class="kpi-label">Active — Denver</div><div class="kpi-value" id="kpi-active-3">761</div></div>
+      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">694</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -167,9 +167,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Avg customer age (tenure)</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">Avg age — total</div><div class="kpi-value" id="kpi-age-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-age-1">—</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-age-3">—</div></div>
+      <div class="kpi"><div class="kpi-label">Avg age — total</div><div class="kpi-value" id="kpi-age-total">1y 10mo</div></div>
+      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-age-1">2y 4mo</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-age-3">11mo</div></div>
     </div>
     <div class="card">
       <div class="chart-wrap" style="height:180px;"><canvas id="c-age" role="img" aria-label="Avg customer tenure by office"></canvas></div>
@@ -335,15 +335,15 @@ function applyCollectionColors() {
   document.getElementById(id)?.addEventListener('input', applyCollectionColors);
 });
 
-const PLACEHOLDER_SUBS   = [0, 0];
-const PLACEHOLDER_MRR    = [0, 0];
-const PLACEHOLDER_ARR    = [0, 0];
-const PLACEHOLDER_ACV    = [0, 0];
-const PLACEHOLDER_AP_ON  = [0, 0];
-const PLACEHOLDER_AP_OFF = [0, 0];
-const PLACEHOLDER_ACTIVE = [0, 0];
-const PLACEHOLDER_GOOD   = [0, 0];
-const PLACEHOLDER_AGE    = [0, 0];
+const PLACEHOLDER_SUBS   = [1357, 1207];
+const PLACEHOLDER_MRR    = [109172.21, 61744.33];
+const PLACEHOLDER_ARR    = [641677.44, 827018.96];
+const PLACEHOLDER_ACV    = [472.86, 685.19];
+const PLACEHOLDER_AP_ON  = [1075, 596];
+const PLACEHOLDER_AP_OFF = [276, 165];
+const PLACEHOLDER_ACTIVE = [1351, 761];
+const PLACEHOLDER_GOOD   = [1076, 694];
+const PLACEHOLDER_AGE    = [28, 11];
 const PLACEHOLDER_RET012  = [0, 0];
 const PLACEHOLDER_RET1224 = [0, 0];
 const PLACEHOLDER_RET24P  = [0, 0];
