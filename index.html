@@ -88,12 +88,28 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <button class="tab-btn active" onclick="switchTab('summary')">Summary</button>
   <button class="tab-btn" onclick="switchTab('health')">Customer Health</button>
   <button class="tab-btn" onclick="switchTab('retention')">Retention</button>
+  <button class="tab-btn" onclick="switchTab('growth')">Growth</button>
+  <button class="tab-btn" onclick="switchTab('financials')">Financials</button>
 </div>
 
 <!-- ═══════════════════════════ SUMMARY TAB ════════════════════════════ -->
 <div id="tab-summary" class="tab-panel active">
   <div style="padding:2rem; text-align:center; color:var(--text-muted); font-size:12px; font-style:italic;">
     Summary tab — tell me what to put here.
+  </div>
+</div>
+
+<!-- ═══════════════════════════ GROWTH TAB ════════════════════════════ -->
+<div id="tab-growth" class="tab-panel">
+  <div style="padding:2rem; text-align:center; color:var(--text-muted); font-size:12px; font-style:italic;">
+    Growth tab — tell me what to put here.
+  </div>
+</div>
+
+<!-- ═══════════════════════════ FINANCIALS TAB ════════════════════════ -->
+<div id="tab-financials" class="tab-panel">
+  <div style="padding:2rem; text-align:center; color:var(--text-muted); font-size:12px; font-style:italic;">
+    Financials tab — tell me what to put here.
   </div>
 </div>
 
@@ -295,7 +311,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <script>
 function switchTab(name) {
-  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['summary','health','retention'][i] === name));
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['summary','health','retention','growth','financials'][i] === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-'+name));
 }
 
