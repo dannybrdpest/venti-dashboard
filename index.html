@@ -65,7 +65,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <div class="header">
   <h1>Venti — dashboard</h1>
-  <span class="updated">Last updated: June 24, 2026 03:38 PM</span>
+  <span class="updated">Last updated: June 25, 2026 09:56 AM</span>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -77,9 +77,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Active recurring subscriptions</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">Total — all offices</div><div class="kpi-value" id="kpi-subs-total">2,789</div></div>
-      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-subs-1">1,975</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-subs-3">814</div></div>
+      <div class="kpi"><div class="kpi-label">Total — all offices</div><div class="kpi-value" id="kpi-subs-total">2,804</div></div>
+      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-subs-1">1,974</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-subs-3">830</div></div>
     </div>
     <div class="card">
       <div class="chart-wrap" style="height:220px;"><canvas id="c-subs" role="img" aria-label="Active recurring subscriptions by office"></canvas></div>
@@ -95,15 +95,15 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
       <label>Red &lt; <input type="number" id="thresh-red" value="88" min="0" max="100" style="width:52px;"> %</label>
     </div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">ARR — total</div><div class="kpi-value" id="kpi-arr-total">$1.68M</div></div>
-      <div class="kpi"><div class="kpi-label">MRR — total</div><div class="kpi-value" id="kpi-mrr-total">$140.2k</div></div>
-      <div class="kpi"><div class="kpi-label">Collected — total</div><div class="kpi-value" id="kpi-collected-total">$92.6k</div><div class="kpi-sub" id="kpi-collected-pct-total">66.0% of MRR</div></div>
-      <div class="kpi"><div class="kpi-label">ARR — St. George</div><div class="kpi-value" id="kpi-arr-1">$927.9k</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — total</div><div class="kpi-value" id="kpi-arr-total">$1.70M</div></div>
+      <div class="kpi"><div class="kpi-label">MRR — total</div><div class="kpi-value" id="kpi-mrr-total">$141.3k</div></div>
+      <div class="kpi"><div class="kpi-label">Collected — total</div><div class="kpi-value" id="kpi-collected-total">$95.4k</div><div class="kpi-sub" id="kpi-collected-pct-total">67.5% of MRR</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — St. George</div><div class="kpi-value" id="kpi-arr-1">$927.3k</div></div>
       <div class="kpi"><div class="kpi-label">MRR — St. George</div><div class="kpi-value" id="kpi-mrr-1">$77.3k</div></div>
-      <div class="kpi"><div class="kpi-label">Collected — St. George</div><div class="kpi-value" id="kpi-collected-1">$58.9k</div><div class="kpi-sub" id="kpi-collected-pct-1">76.1% of MRR</div></div>
-      <div class="kpi"><div class="kpi-label">ARR — Denver</div><div class="kpi-value" id="kpi-arr-3">$754.9k</div></div>
-      <div class="kpi"><div class="kpi-label">MRR — Denver</div><div class="kpi-value" id="kpi-mrr-3">$62.9k</div></div>
-      <div class="kpi"><div class="kpi-label">Collected — Denver</div><div class="kpi-value" id="kpi-collected-3">$33.8k</div><div class="kpi-sub" id="kpi-collected-pct-3">53.7% of MRR</div></div>
+      <div class="kpi"><div class="kpi-label">Collected — St. George</div><div class="kpi-value" id="kpi-collected-1">$59.5k</div><div class="kpi-sub" id="kpi-collected-pct-1">77.0% of MRR</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — Denver</div><div class="kpi-value" id="kpi-arr-3">$768.7k</div></div>
+      <div class="kpi"><div class="kpi-label">MRR — Denver</div><div class="kpi-value" id="kpi-mrr-3">$64.1k</div></div>
+      <div class="kpi"><div class="kpi-label">Collected — Denver</div><div class="kpi-value" id="kpi-collected-3">$35.8k</div><div class="kpi-sub" id="kpi-collected-pct-3">56.0% of MRR</div></div>
     </div>
     <div class="two-col">
       <div class="card">
@@ -120,9 +120,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">ACV — avg annual contract value per customer</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">ACV — total avg</div><div class="kpi-value" id="kpi-acv-total">$603.36</div></div>
-      <div class="kpi"><div class="kpi-label">ACV — St. George</div><div class="kpi-value" id="kpi-acv-1">$469.82</div></div>
-      <div class="kpi"><div class="kpi-label">ACV — Denver</div><div class="kpi-value" id="kpi-acv-3">$927.36</div></div>
+      <div class="kpi"><div class="kpi-label">ACV — total avg</div><div class="kpi-value" id="kpi-acv-total">$604.84</div></div>
+      <div class="kpi"><div class="kpi-label">ACV — St. George</div><div class="kpi-value" id="kpi-acv-1">$469.75</div></div>
+      <div class="kpi"><div class="kpi-label">ACV — Denver</div><div class="kpi-value" id="kpi-acv-3">$926.13</div></div>
     </div>
     <div class="card">
       <div class="chart-wrap" style="height:180px;"><canvas id="c-acv" role="img" aria-label="ACV by office"></canvas></div>
@@ -132,9 +132,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Autopay %</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">Autopay — total</div><div class="kpi-value" id="kpi-ap-total">87.9%</div></div>
+      <div class="kpi"><div class="kpi-label">Autopay — total</div><div class="kpi-value" id="kpi-ap-total">87.7%</div></div>
       <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-ap-1">87.4%</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-ap-3">95.1%</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-ap-3">94.4%</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -148,12 +148,12 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Active vs good customers</div>
     <div class="kpi-grid" style="margin-bottom:1rem;">
-      <div class="kpi"><div class="kpi-label">Active — total</div><div class="kpi-value" id="kpi-active-total">2,605</div></div>
-      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">2,182</div><div class="kpi-sub" id="kpi-good-pct">83.8% of active</div></div>
-      <div class="kpi"><div class="kpi-label">Active — St. George</div><div class="kpi-value" id="kpi-active-1">2,012</div></div>
-      <div class="kpi"><div class="kpi-label">Good — St. George</div><div class="kpi-value" id="kpi-good-1">1,646</div></div>
-      <div class="kpi"><div class="kpi-label">Active — Denver</div><div class="kpi-value" id="kpi-active-3">593</div></div>
-      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">536</div></div>
+      <div class="kpi"><div class="kpi-label">Active — total</div><div class="kpi-value" id="kpi-active-total">2,616</div></div>
+      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">2,178</div><div class="kpi-sub" id="kpi-good-pct">83.3% of active</div></div>
+      <div class="kpi"><div class="kpi-label">Active — St. George</div><div class="kpi-value" id="kpi-active-1">2,011</div></div>
+      <div class="kpi"><div class="kpi-label">Good — St. George</div><div class="kpi-value" id="kpi-good-1">1,630</div></div>
+      <div class="kpi"><div class="kpi-label">Active — Denver</div><div class="kpi-value" id="kpi-active-3">605</div></div>
+      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">548</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -206,7 +206,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
     <div class="kpi-grid" style="margin-bottom:1rem;">
       <div class="kpi"><div class="kpi-label">0–12 mo retention — total</div><div class="kpi-value" id="kpi-ret012-total">82.1%</div></div>
       <div class="kpi"><div class="kpi-label">12–24 mo retention — total</div><div class="kpi-value" id="kpi-ret1224-total">58.1%</div></div>
-      <div class="kpi"><div class="kpi-label">24+ mo retention — total</div><div class="kpi-value" id="kpi-ret24p-total">43.6%</div></div>
+      <div class="kpi"><div class="kpi-label">24+ mo retention — total</div><div class="kpi-value" id="kpi-ret24p-total">43.5%</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -277,8 +277,8 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <script>
 Chart.register(ChartDataLabels);
-const RETENTION_DATA = {"cohort": {"total": {"pct": [82.1, 58.1, 43.6], "active": [849, 280, 1391], "total": [1034, 482, 3194]}, "sg": {"pct": [66.3, 58.1, 43.6], "active": [297, 280, 1391], "total": [448, 482, 3194]}, "den": {"pct": [94.2, 0, 0], "active": [552, 0, 0], "total": [586, 0, 0]}}, "tranche": {"total": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 333, 342, 167, 399, 617], "cancelled": [56, 830, 465, 408, 127, 256, 48]}, "sg": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 333, 342, 167, 399, 65], "cancelled": [56, 830, 465, 408, 127, 256, 14]}, "den": {"years": ["2026"], "active": [552], "cancelled": [34]}}, "monthly": {"total": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 51, "a": 2022}, {"m": "2026-05-01", "c": 71, "a": 2101}, {"m": "2026-06-01", "c": 71, "a": 2267}], "sg": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 46, "a": 2022}, {"m": "2026-05-01", "c": 54, "a": 1994}, {"m": "2026-06-01", "c": 52, "a": 1951}], "den": [{"m": "2026-04-01", "c": 5, "a": 0}, {"m": "2026-05-01", "c": 17, "a": 107}, {"m": "2026-06-01", "c": 19, "a": 316}]}};
-const MRR_RAW = {"total": 140229.85, "1": 77324.02, "3": 62905.83};
+const RETENTION_DATA = {"cohort": {"total": {"pct": [82.1, 58.1, 43.5], "active": [855, 280, 1390], "total": [1041, 482, 3194]}, "sg": {"pct": [66.3, 58.1, 43.5], "active": [297, 280, 1390], "total": [448, 482, 3194]}, "den": {"pct": [94.1, 0, 0], "active": [558, 0, 0], "total": [593, 0, 0]}}, "tranche": {"total": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 332, 342, 167, 399, 623], "cancelled": [56, 830, 466, 408, 127, 256, 49]}, "sg": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 332, 342, 167, 399, 65], "cancelled": [56, 830, 466, 408, 127, 256, 14]}, "den": {"years": ["2026"], "active": [558], "cancelled": [35]}}, "monthly": {"total": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 51, "a": 2022}, {"m": "2026-05-01", "c": 71, "a": 2101}, {"m": "2026-06-01", "c": 73, "a": 2267}], "sg": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 46, "a": 2022}, {"m": "2026-05-01", "c": 54, "a": 1994}, {"m": "2026-06-01", "c": 53, "a": 1951}], "den": [{"m": "2026-04-01", "c": 5, "a": 0}, {"m": "2026-05-01", "c": 17, "a": 107}, {"m": "2026-06-01", "c": 20, "a": 316}]}};
+const MRR_RAW = {"total": 141331.52000000002, "1": 77274.02, "3": 64057.5};
 
 const OFFICES = ['St. George','Denver'];
 const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -335,14 +335,14 @@ function applyCollectionColors() {
   document.getElementById(id)?.addEventListener('input', applyCollectionColors);
 });
 
-const PLACEHOLDER_SUBS   = [1975, 814];
-const PLACEHOLDER_MRR    = [77324.02, 62905.83];
-const PLACEHOLDER_ARR    = [927888.28, 754869.96];
-const PLACEHOLDER_ACV    = [469.82, 927.36];
-const PLACEHOLDER_AP_ON  = [1727, 562];
-const PLACEHOLDER_AP_OFF = [248, 29];
-const PLACEHOLDER_ACTIVE = [2012, 593];
-const PLACEHOLDER_GOOD   = [1646, 536];
+const PLACEHOLDER_SUBS   = [1974, 830];
+const PLACEHOLDER_MRR    = [77274.02, 64057.5];
+const PLACEHOLDER_ARR    = [927288.28, 768689.96];
+const PLACEHOLDER_ACV    = [469.75, 926.13];
+const PLACEHOLDER_AP_ON  = [1726, 569];
+const PLACEHOLDER_AP_OFF = [248, 34];
+const PLACEHOLDER_ACTIVE = [2011, 605];
+const PLACEHOLDER_GOOD   = [1630, 548];
 const PLACEHOLDER_AGE    = [39, 1];
 const PLACEHOLDER_RET012  = [0, 0];
 const PLACEHOLDER_RET1224 = [0, 0];
