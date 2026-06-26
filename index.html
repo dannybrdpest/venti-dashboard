@@ -651,6 +651,36 @@ if (RD) {
   function netSign(v) { return (v >= 0 ? '+' : '') + v.toLocaleString(); }
   function netColor(v) { return v >= 0 ? 'var(--green)' : 'var(--coral)'; }
 
+  // Data label helpers for growth charts
+  const dlG = { display:true, color:labelColor, font:{ size:9, weight:'500' } };
+  // Stack-total label: only fires on the last dataset, sums all datasets at that index
+  function dlStackTotal(datasets, fmt, sz) {
+    return {
+      ...dlG, font:{ size: sz||9, weight:'500' },
+      anchor:'end', align:'end',
+      formatter(v, ctx) {
+        if (ctx.datasetIndex !== datasets.length - 1) return '';
+        const total = datasets.reduce((s, d) => s + (d[ctx.dataIndex] || 0), 0);
+        return total === 0 ? '' : fmt(total);
+      }
+    };
+  }
+  // Per-value label for net (signed) bar charts
+  const dlNet = {
+    ...dlG,
+    anchor: ctx => (ctx.dataset.data[ctx.dataIndex] || 0) >= 0 ? 'end' : 'start',
+    align:  ctx => (ctx.dataset.data[ctx.dataIndex] || 0) >= 0 ? 'end' : 'start',
+    formatter: v => v === 0 ? '' : (v > 0 ? '+' : '') + v.toLocaleString()
+  };
+  const dlNetArr = {
+    ...dlG,
+    anchor: ctx => (ctx.dataset.data[ctx.dataIndex] || 0) >= 0 ? 'end' : 'start',
+    align:  ctx => (ctx.dataset.data[ctx.dataIndex] || 0) >= 0 ? 'end' : 'start',
+    formatter: v => v === 0 ? '' : (v > 0 ? '+' : '') + fmtK(v)
+  };
+  // Point label for line charts
+  const dlLine = { ...dlG, anchor:'end', align:'top', formatter: v => fmtK(v) };
+
   // ── Section 1: Annual growth ─────────────────────────────────────────────────
   function buildAnnualCharts() {
     // Group by year; for current year only count complete months (< curM)
@@ -701,22 +731,25 @@ if (RD) {
     const labels = years.map(y => y === String(thisYear) ? y + ' YTD' : y);
     function barData(yObj, key, years) { return years.map(y => yObj[y] ? yObj[y][key] : 0); }
 
+    const acqSgD = barData(sgY, 'new', years), acqDenD = barData(denY,'new', years);
+    const arrSgD = barData(sgY, 'arr_new', years), arrDenD = barData(denY,'arr_new', years);
+
     if (gCharts.annualAcq) gCharts.annualAcq.destroy();
     gCharts.annualAcq = new Chart(document.getElementById('c-annual-acq'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'St. George', data:barData(sgY, 'new', years),  backgroundColor:'#378ADD', borderRadius:3, datalabels:{display:false} },
-        { label:'Denver',     data:barData(denY,'new', years),  backgroundColor:'#1D9E75', borderRadius:3, datalabels:{display:false} },
+        { label:'St. George', data:acqSgD,  backgroundColor:'#378ADD', borderRadius:3, datalabels:{ display:false } },
+        { label:'Denver',     data:acqDenD, backgroundColor:'#1D9E75', borderRadius:3, datalabels: dlStackTotal([acqSgD,acqDenD], v=>v.toLocaleString(), 10) },
       ]},
-      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+      options:{ ...base, layout:{ padding:{ top:20 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
     });
 
     if (gCharts.annualArr) gCharts.annualArr.destroy();
     gCharts.annualArr = new Chart(document.getElementById('c-annual-arr'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'St. George', data:barData(sgY, 'arr_new', years),  backgroundColor:'#378ADD', borderRadius:3, datalabels:{display:false} },
-        { label:'Denver',     data:barData(denY,'arr_new', years),  backgroundColor:'#1D9E75', borderRadius:3, datalabels:{display:false} },
+        { label:'St. George', data:arrSgD,  backgroundColor:'#378ADD', borderRadius:3, datalabels:{ display:false } },
+        { label:'Denver',     data:arrDenD, backgroundColor:'#1D9E75', borderRadius:3, datalabels: dlStackTotal([arrSgD,arrDenD], fmtK, 10) },
       ]},
-      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+      options:{ ...base, layout:{ padding:{ top:20 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
     });
   }
 
@@ -735,19 +768,19 @@ if (RD) {
     if (gCharts.monthlyAcq) gCharts.monthlyAcq.destroy();
     gCharts.monthlyAcq = new Chart(document.getElementById('c-monthly-acq'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'St. George', data:sgNew,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{display:false} },
-        { label:'Denver',     data:denNew, backgroundColor:'#1D9E75', borderRadius:2, datalabels:{display:false} },
+        { label:'St. George', data:sgNew,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{ display:false } },
+        { label:'Denver',     data:denNew, backgroundColor:'#1D9E75', borderRadius:2, datalabels: dlStackTotal([sgNew,denNew], v=>v.toLocaleString()) },
       ]},
-      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+      options:{ ...base, layout:{ padding:{ top:16 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
     });
 
     if (gCharts.monthlyArr) gCharts.monthlyArr.destroy();
     gCharts.monthlyArr = new Chart(document.getElementById('c-monthly-arr'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'St. George', data:sgArr,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{display:false} },
-        { label:'Denver',     data:denArr, backgroundColor:'#1D9E75', borderRadius:2, datalabels:{display:false} },
+        { label:'St. George', data:sgArr,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{ display:false } },
+        { label:'Denver',     data:denArr, backgroundColor:'#1D9E75', borderRadius:2, datalabels: dlStackTotal([sgArr,denArr], fmtK) },
       ]},
-      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+      options:{ ...base, layout:{ padding:{ top:16 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
     });
   }
 
@@ -787,21 +820,21 @@ if (RD) {
     if (gCharts.netAcq) gCharts.netAcq.destroy();
     gCharts.netAcq = new Chart(document.getElementById('c-net-acq'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'St. George', data:sgNet,  backgroundColor:'#378ADD88', borderRadius:2, datalabels:{display:false} },
-        { label:'Denver',     data:denNet, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{display:false} },
-        { label:'Total',      data:totNet, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{display:false} },
+        { label:'St. George', data:sgNet,  backgroundColor:'#378ADD88', borderRadius:2, datalabels:{ display:false } },
+        { label:'Denver',     data:denNet, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{ display:false } },
+        { label:'Total',      data:totNet, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{ ...dlNet, font:{ size:8, weight:'500' } } },
       ]},
-      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
     });
 
     if (gCharts.netArr) gCharts.netArr.destroy();
     gCharts.netArr = new Chart(document.getElementById('c-net-arr'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'St. George', data:sgNetArr,  backgroundColor:'#378ADD88', borderRadius:2, datalabels:{display:false} },
-        { label:'Denver',     data:denNetArr, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{display:false} },
-        { label:'Total',      data:totNetArr, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{display:false} },
+        { label:'St. George', data:sgNetArr,  backgroundColor:'#378ADD88', borderRadius:2, datalabels:{ display:false } },
+        { label:'Denver',     data:denNetArr, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{ display:false } },
+        { label:'Total',      data:totNetArr, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{ ...dlNetArr, font:{ size:8, weight:'500' } } },
       ]},
-      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
     });
   }
 
@@ -846,8 +879,8 @@ if (RD) {
     if (gCharts.yoy) gCharts.yoy.destroy();
     gCharts.yoy = new Chart(document.getElementById('c-yoy'), { type:'line',
       data:{ labels: monthLabels, datasets:[
-        { label: String(thisYear), data: thisData, borderColor:'#378ADD', backgroundColor:'#378ADD22', fill:true, tension:0.3, pointRadius:3, datalabels:{display:false} },
-        { label: String(lastYear), data: lastData, borderColor:'#888', backgroundColor:'transparent', borderDash:[4,3], tension:0.3, pointRadius:2, datalabels:{display:false} },
+        { label: String(thisYear), data: thisData, borderColor:'#378ADD', backgroundColor:'#378ADD22', fill:true, tension:0.3, pointRadius:3, datalabels:{ ...dlLine, color:'#378ADD' } },
+        { label: String(lastYear), data: lastData, borderColor:'#888', backgroundColor:'transparent', borderDash:[4,3], tension:0.3, pointRadius:2, datalabels:{ ...dlLine, color:'#888', align:'bottom' } },
       ]},
       options:{ ...base, scales:{ x:{ ...sx() }, y:{ ...sy(v=>fmtK(v)) } } }
     });
