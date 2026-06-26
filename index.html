@@ -442,7 +442,7 @@ const dlPct = { ...dl, anchor:'end', align:'end', formatter: v => v == null ? ''
 const dlMonths = { ...dl, anchor:'end', align:'end', formatter: v => v == null ? '' : v+'mo' };
 
 const base = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } };
-function sx(fmt) { return { ticks:{ callback:fmt||null, color:tickColor, font:{size:10} }, grid:{ color:gridColor } }; }
+function sx(fmt) { const t = { color:tickColor, font:{size:10} }; if(fmt) t.callback=fmt; return { ticks:t, grid:{ color:gridColor } }; }
 function sy(fmt) { return { ticks:{ callback:fmt||null, color:tickColor, font:{size:10}, autoSkip:false }, grid:{ color:gridColor } }; }
 
 // Collection rate threshold coloring
@@ -653,7 +653,7 @@ if (RD) {
         color: tickColor,
         font: { size: 9 },
         maxRotation: 45, minRotation: 0,
-        autoSkip: true, maxTicksLimit: 24,
+        autoSkip: false,
         callback: (val, idx) => {
           const m = monthKeys[idx];
           if (!m) return '';
