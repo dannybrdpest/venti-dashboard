@@ -81,7 +81,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <div class="header">
   <h1>Venti — dashboard</h1>
-  <span class="updated">Last updated: June 26, 2026 02:10 PM</span>
+  <span class="updated">Last updated: June 26, 2026 02:57 PM</span>
 </div>
 
 <div class="tab-bar">
@@ -101,9 +101,75 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <!-- ═══════════════════════════ GROWTH TAB ════════════════════════════ -->
 <div id="tab-growth" class="tab-panel">
-  <div style="padding:2rem; text-align:center; color:var(--text-muted); font-size:12px; font-style:italic;">
-    Growth tab — tell me what to put here.
+
+  <!-- New customer acquisition KPIs -->
+  <div class="section">
+    <div class="section-title">New customers — this month</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Total</div><div class="kpi-value" id="g-new-total">—</div></div>
+      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="g-new-sg">—</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="g-new-den">—</div></div>
+      <div class="kpi"><div class="kpi-label">Net growth — total</div><div class="kpi-value" id="g-net-total">—</div><div class="kpi-sub" id="g-net-sub-total"></div></div>
+      <div class="kpi"><div class="kpi-label">Net growth — St. George</div><div class="kpi-value" id="g-net-sg">—</div></div>
+      <div class="kpi"><div class="kpi-label">Net growth — Denver</div><div class="kpi-value" id="g-net-den">—</div></div>
+    </div>
   </div>
+
+  <!-- Monthly acquisition trend -->
+  <div class="section">
+    <div class="section-title">Monthly new customer acquisition</div>
+    <div class="control-row">
+      <label for="growth-start">From:</label>
+      <input type="date" id="growth-start" value="2024-01-01">
+    </div>
+    <div class="card">
+      <div class="legend">
+        <span><span class="legend-dot" style="background:var(--blue);"></span>St. George</span>
+        <span><span class="legend-dot" style="background:var(--green);"></span>Denver</span>
+      </div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="c-new-acq"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Gross adds vs cancellations -->
+  <div class="section">
+    <div class="section-title">Gross adds vs cancellations</div>
+    <div class="card">
+      <div class="legend">
+        <span><span class="legend-dot" style="background:var(--green);"></span>New customers</span>
+        <span><span class="legend-dot" style="background:var(--coral);"></span>Cancellations</span>
+      </div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="c-churn-growth"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Goal tracking -->
+  <div class="section">
+    <div class="section-title">Goal tracking</div>
+    <div class="card" style="margin-bottom:8px;">
+      <div class="card-title" style="margin-bottom:10px;">Set targets</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+        <div>
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">Total — target customers</div>
+          <input type="number" id="goal-total" placeholder="e.g. 4000" style="width:100%;font-size:13px;padding:6px 8px;border-radius:6px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">St. George — target</div>
+          <input type="number" id="goal-sg" placeholder="e.g. 2500" style="width:100%;font-size:13px;padding:6px 8px;border-radius:6px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">Denver — target</div>
+          <input type="number" id="goal-den" placeholder="e.g. 1500" style="width:100%;font-size:13px;padding:6px 8px;border-radius:6px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">Target date</div>
+          <input type="date" id="goal-date" style="width:100%;font-size:13px;padding:6px 8px;border-radius:6px;border:0.5px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;">
+        </div>
+      </div>
+    </div>
+    <div id="goal-cards" class="kpi-grid" style="margin-top:8px;"></div>
+  </div>
+
 </div>
 
 <!-- ═══════════════════════════ FINANCIALS TAB ════════════════════════ -->
@@ -119,9 +185,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Active recurring subscriptions</div>
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-label">Total</div><div class="kpi-value" id="kpi-subs-total">2,581</div></div>
+      <div class="kpi"><div class="kpi-label">Total</div><div class="kpi-value" id="kpi-subs-total">2,584</div></div>
       <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-subs-1">1,967</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-subs-3">614</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-subs-3">617</div></div>
     </div>
     <div class="card">
       <div class="chart-wrap" style="height:160px;"><canvas id="c-subs"></canvas></div>
@@ -137,15 +203,15 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
       <label>Red &lt; <input type="number" id="thresh-red" value="88" min="0" max="100" style="width:46px;"> %</label>
     </div>
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-label">ARR — total</div><div class="kpi-value" id="kpi-arr-total">$1.70M</div></div>
-      <div class="kpi"><div class="kpi-label">MRR — total</div><div class="kpi-value" id="kpi-mrr-total">$141.9k</div></div>
-      <div class="kpi"><div class="kpi-label">Collected — total</div><div class="kpi-value" id="kpi-collected-total">$101.3k</div><div class="kpi-sub" id="kpi-collected-pct-total">71.4% of MRR</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — total</div><div class="kpi-value" id="kpi-arr-total">$1.71M</div></div>
+      <div class="kpi"><div class="kpi-label">MRR — total</div><div class="kpi-value" id="kpi-mrr-total">$142.2k</div></div>
+      <div class="kpi"><div class="kpi-label">Collected — total</div><div class="kpi-value" id="kpi-collected-total">$101.5k</div><div class="kpi-sub" id="kpi-collected-pct-total">71.4% of MRR</div></div>
       <div class="kpi"><div class="kpi-label">ARR — St. George</div><div class="kpi-value" id="kpi-arr-1">$923.8k</div></div>
       <div class="kpi"><div class="kpi-label">MRR — St. George</div><div class="kpi-value" id="kpi-mrr-1">$77.0k</div></div>
-      <div class="kpi"><div class="kpi-label">Collected — St. George</div><div class="kpi-value" id="kpi-collected-1">$63.3k</div><div class="kpi-sub" id="kpi-collected-pct-1">82.3% of MRR</div></div>
-      <div class="kpi"><div class="kpi-label">ARR — Denver</div><div class="kpi-value" id="kpi-arr-3">$779.1k</div></div>
-      <div class="kpi"><div class="kpi-label">MRR — Denver</div><div class="kpi-value" id="kpi-mrr-3">$64.9k</div></div>
-      <div class="kpi"><div class="kpi-label">Collected — Denver</div><div class="kpi-value" id="kpi-collected-3">$38.0k</div><div class="kpi-sub" id="kpi-collected-pct-3">58.5% of MRR</div></div>
+      <div class="kpi"><div class="kpi-label">Collected — St. George</div><div class="kpi-value" id="kpi-collected-1">$63.4k</div><div class="kpi-sub" id="kpi-collected-pct-1">82.4% of MRR</div></div>
+      <div class="kpi"><div class="kpi-label">ARR — Denver</div><div class="kpi-value" id="kpi-arr-3">$782.5k</div></div>
+      <div class="kpi"><div class="kpi-label">MRR — Denver</div><div class="kpi-value" id="kpi-mrr-3">$65.2k</div></div>
+      <div class="kpi"><div class="kpi-label">Collected — Denver</div><div class="kpi-value" id="kpi-collected-3">$38.1k</div><div class="kpi-sub" id="kpi-collected-pct-3">58.4% of MRR</div></div>
     </div>
     <div class="two-col">
       <div class="card">
@@ -162,9 +228,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">ACV — avg annual contract value</div>
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-label">Total avg</div><div class="kpi-value" id="kpi-acv-total">$659.78</div></div>
+      <div class="kpi"><div class="kpi-label">Total avg</div><div class="kpi-value" id="kpi-acv-total">$660.33</div></div>
       <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="kpi-acv-1">$469.63</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-acv-3">$925.33</div></div>
+      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="kpi-acv-3">$924.96</div></div>
     </div>
     <div class="card">
       <div class="chart-wrap" style="height:150px;"><canvas id="c-acv"></canvas></div>
@@ -190,12 +256,12 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Active vs good customers</div>
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-label">Active — total</div><div class="kpi-value" id="kpi-active-total">2,581</div></div>
-      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">2,189</div><div class="kpi-sub" id="kpi-good-pct">84.8% of active</div></div>
+      <div class="kpi"><div class="kpi-label">Active — total</div><div class="kpi-value" id="kpi-active-total">2,584</div></div>
+      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">2,193</div><div class="kpi-sub" id="kpi-good-pct">84.9% of active</div></div>
       <div class="kpi"><div class="kpi-label">Active — St. George</div><div class="kpi-value" id="kpi-active-1">1,967</div></div>
-      <div class="kpi"><div class="kpi-label">Good — St. George</div><div class="kpi-value" id="kpi-good-1">1,626</div></div>
-      <div class="kpi"><div class="kpi-label">Active — Denver</div><div class="kpi-value" id="kpi-active-3">614</div></div>
-      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">563</div></div>
+      <div class="kpi"><div class="kpi-label">Good — St. George</div><div class="kpi-value" id="kpi-good-1">1,627</div></div>
+      <div class="kpi"><div class="kpi-label">Active — Denver</div><div class="kpi-value" id="kpi-active-3">617</div></div>
+      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">566</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -316,8 +382,8 @@ function switchTab(name) {
 }
 
 Chart.register(ChartDataLabels);
-const RETENTION_DATA = {"cohort": {"total": {"pct": [82.4, 57.5, 43.4], "active": [876, 277, 1387], "total": [1063, 482, 3194]}, "sg": {"pct": [66.1, 57.5, 43.4], "active": [297, 277, 1387], "total": [449, 482, 3194]}, "den": {"pct": [94.3, 0, 0], "active": [579, 0, 0], "total": [614, 0, 0]}}, "tranche": {"total": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 645], "cancelled": [56, 830, 467, 409, 130, 258, 49]}, "sg": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 66], "cancelled": [56, 830, 467, 409, 130, 258, 14]}, "den": {"years": ["2026"], "active": [579], "cancelled": [35]}}, "monthly": {"total": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 51, "a": 2022}, {"m": "2026-05-01", "c": 71, "a": 2101}, {"m": "2026-06-01", "c": 80, "a": 2267}], "sg": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 46, "a": 2022}, {"m": "2026-05-01", "c": 54, "a": 1994}, {"m": "2026-06-01", "c": 60, "a": 1951}], "den": [{"m": "2026-04-01", "c": 5, "a": 0}, {"m": "2026-05-01", "c": 17, "a": 107}, {"m": "2026-06-01", "c": 20, "a": 316}]}};
-const MRR_RAW = {"total": 141908.19, "1": 76980.69, "3": 64927.5};
+const RETENTION_DATA = {"cohort": {"total": {"pct": [82.4, 57.5, 43.4], "active": [877, 277, 1387], "total": [1064, 482, 3194]}, "sg": {"pct": [66.1, 57.5, 43.4], "active": [297, 277, 1387], "total": [449, 482, 3194]}, "den": {"pct": [94.3, 0, 0], "active": [580, 0, 0], "total": [615, 0, 0]}}, "tranche": {"total": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 646], "cancelled": [56, 830, 467, 409, 130, 258, 49]}, "sg": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 66], "cancelled": [56, 830, 467, 409, 130, 258, 14]}, "den": {"years": ["2026"], "active": [580], "cancelled": [35]}}, "monthly": {"total": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 51, "a": 2022}, {"m": "2026-05-01", "c": 71, "a": 2101}, {"m": "2026-06-01", "c": 80, "a": 2267}], "sg": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 46, "a": 2022}, {"m": "2026-05-01", "c": 54, "a": 1994}, {"m": "2026-06-01", "c": 60, "a": 1951}], "den": [{"m": "2026-04-01", "c": 5, "a": 0}, {"m": "2026-05-01", "c": 17, "a": 107}, {"m": "2026-06-01", "c": 20, "a": 316}]}};
+const MRR_RAW = {"total": 142190.19, "1": 76980.69, "3": 65209.5};
 
 const OFFICES = ['St. George','Denver'];
 const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -368,14 +434,14 @@ function applyCollectionColors() {
   document.getElementById(id)?.addEventListener('input', applyCollectionColors);
 });
 
-const PLACEHOLDER_SUBS   = [1967, 614];
-const PLACEHOLDER_MRR    = [76980.69, 64927.5];
-const PLACEHOLDER_ARR    = [923768.28, 779129.96];
-const PLACEHOLDER_ACV    = [469.63, 925.33];
-const PLACEHOLDER_AP_ON  = [1722, 579];
+const PLACEHOLDER_SUBS   = [1967, 617];
+const PLACEHOLDER_MRR    = [76980.69, 65209.5];
+const PLACEHOLDER_ARR    = [923768.28, 782513.96];
+const PLACEHOLDER_ACV    = [469.63, 924.96];
+const PLACEHOLDER_AP_ON  = [1722, 582];
 const PLACEHOLDER_AP_OFF = [245, 35];
-const PLACEHOLDER_ACTIVE = [1967, 614];
-const PLACEHOLDER_GOOD   = [1626, 563];
+const PLACEHOLDER_ACTIVE = [1967, 617];
+const PLACEHOLDER_GOOD   = [1627, 566];
 const PLACEHOLDER_AGE    = [39, 1];
 
 new Chart(document.getElementById('c-subs'), { type:'bar',
@@ -491,6 +557,160 @@ function buildAttritionChart(startDateStr) {
 }
 document.getElementById('attrition-date').addEventListener('change', e => buildAttritionChart(e.target.value));
 buildAttritionChart(document.getElementById('attrition-date').value);
+
+// ── Growth tab ────────────────────────────────────────────────────────────────
+if (RD) {
+  let acqChart = null, churnChart = null;
+
+  function buildGrowthCharts(startDateStr) {
+    const src = {
+      total: RD.monthly.total,
+      sg:    RD.monthly.sg,
+      den:   RD.monthly.den
+    };
+
+    // Filter months >= startDate, exclude current (partial) month
+    const todayStr = new Date().toISOString().slice(0,7) + '-01';
+    function filtered(arr) {
+      return arr.filter(r => r.m >= startDateStr && r.m < todayStr);
+    }
+
+    const tot = filtered(src.total);
+    const sg  = filtered(src.sg);
+
+    // Build den map for lookup by month
+    const denMap = {};
+    src.den.forEach(r => { denMap[r.m] = r; });
+
+    const labels = tot.map(r => r.m.slice(0,7));
+
+    // New customers per month (use 'new' field if present, else derive from active diff)
+    function newCusts(arr, i) {
+      if (arr[i].new != null) return arr[i].new;
+      if (i + 1 < arr.length) return Math.max(0, arr[i+1].a - arr[i].a + arr[i].c);
+      return arr[i].new || 0;
+    }
+
+    const sgNew  = tot.map((r,i) => { const s = sg[i]; return s ? newCusts(sg, i) : 0; });
+    const denNew = tot.map((r,i) => { const d = denMap[r.m]; return d ? (d.new != null ? d.new : 0) : 0; });
+    const totNew = sgNew.map((v,i) => v + denNew[i]);
+
+    const sgCanc  = tot.map((r,i) => sg[i] ? sg[i].c : 0);
+    const denCanc = tot.map(r => denMap[r.m] ? denMap[r.m].c : 0);
+    const totCanc = sgCanc.map((v,i) => v + denCanc[i]);
+    const netGrowth = totNew.map((v,i) => v - totCanc[i]);
+
+    // KPI cards — current month (last in array)
+    const last = tot.length - 1;
+    if (last >= 0) {
+      const curM = todayStr; // current partial month
+      const curTot = src.total.find(r => r.m === curM);
+      const curSg  = src.sg.find(r => r.m === curM);
+      const curDen = src.den.find(r => r.m === curM);
+      const cNewSg  = curSg  ? (curSg.new  != null ? curSg.new  : 0) : 0;
+      const cNewDen = curDen ? (curDen.new != null ? curDen.new : 0) : 0;
+      const cNewTot = cNewSg + cNewDen;
+      const cCancSg  = curSg  ? curSg.c  : 0;
+      const cCancDen = curDen ? curDen.c : 0;
+      const cNetTot = cNewTot - (cCancSg + cCancDen);
+
+      document.getElementById('g-new-total').textContent = cNewTot.toLocaleString();
+      document.getElementById('g-new-sg').textContent    = cNewSg.toLocaleString();
+      document.getElementById('g-new-den').textContent   = cNewDen.toLocaleString();
+      const netEl = document.getElementById('g-net-total');
+      netEl.textContent = (cNetTot >= 0 ? '+' : '') + cNetTot.toLocaleString();
+      netEl.style.color = cNetTot >= 0 ? 'var(--green)' : 'var(--coral)';
+      const netSg = cNewSg - cCancSg;
+      const netSgEl = document.getElementById('g-net-sg');
+      netSgEl.textContent = (netSg >= 0 ? '+' : '') + netSg.toLocaleString();
+      netSgEl.style.color = netSg >= 0 ? 'var(--green)' : 'var(--coral)';
+      const netDen = cNewDen - cCancDen;
+      const netDenEl = document.getElementById('g-net-den');
+      netDenEl.textContent = (netDen >= 0 ? '+' : '') + netDen.toLocaleString();
+      netDenEl.style.color = netDen >= 0 ? 'var(--green)' : 'var(--coral)';
+    }
+
+    // Acquisition chart
+    if (acqChart) acqChart.destroy();
+    acqChart = new Chart(document.getElementById('c-new-acq'), { type:'bar',
+      data:{ labels, datasets:[
+        { label:'St. George', data:sgNew,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{ display:false } },
+        { label:'Denver',     data:denNew, backgroundColor:'#1D9E75', borderRadius:2, datalabels:{ display:false } }
+      ]},
+      options:{ ...base, scales:{ x:{ stacked:true, ...sx(), grid:{ color:gridColor } }, y:{ stacked:true, ...sy(v=>v.toLocaleString()), grid:{ color:gridColor } } } }
+    });
+
+    // Churn vs growth chart
+    if (churnChart) churnChart.destroy();
+    churnChart = new Chart(document.getElementById('c-churn-growth'), { type:'bar',
+      data:{ labels, datasets:[
+        { label:'New customers',  data:totNew,  backgroundColor:'#1D9E75', borderRadius:2, datalabels:{ display:false } },
+        { label:'Cancellations',  data:totCanc.map(v => -v), backgroundColor:'#D85A30', borderRadius:2, datalabels:{ display:false } },
+      ]},
+      options:{ ...base,
+        scales:{
+          x:{ stacked:true, ...sx(), grid:{ color:gridColor } },
+          y:{ stacked:true, ...sy(v => Math.abs(v).toLocaleString()), grid:{ color:gridColor } }
+        }
+      }
+    });
+  }
+
+  // Goal tracking — persist in localStorage
+  const GOAL_KEYS = ['goal-total','goal-sg','goal-den','goal-date'];
+  GOAL_KEYS.forEach(k => {
+    const saved = localStorage.getItem('venti-'+k);
+    if (saved) document.getElementById(k).value = saved;
+    document.getElementById(k).addEventListener('input', () => {
+      localStorage.setItem('venti-'+k, document.getElementById(k).value);
+      renderGoals();
+    });
+  });
+
+  function renderGoals() {
+    const goalTotal = +document.getElementById('goal-total').value || 0;
+    const goalSg    = +document.getElementById('goal-sg').value    || 0;
+    const goalDen   = +document.getElementById('goal-den').value   || 0;
+    const goalDate  = document.getElementById('goal-date').value;
+
+    // Current actives from KPI elements
+    const curTotal = +(document.getElementById('kpi-active-total')?.textContent.replace(/,/g,'')) || 0;
+    const curSg    = +(document.getElementById('kpi-active-1')?.textContent.replace(/,/g,''))     || 0;
+    const curDen   = +(document.getElementById('kpi-active-3')?.textContent.replace(/,/g,''))     || 0;
+
+    // Days remaining
+    let daysNote = '';
+    if (goalDate) {
+      const days = Math.ceil((new Date(goalDate) - new Date()) / 86400000);
+      daysNote = days > 0 ? days + ' days remaining' : 'Past target date';
+    }
+
+    function goalCard(label, current, goal) {
+      if (!goal) return '';
+      const pct = Math.min(100, Math.round(current / goal * 100));
+      const remaining = goal - current;
+      const color = pct >= 100 ? 'var(--green)' : pct >= 75 ? 'var(--amber)' : 'var(--blue)';
+      return `<div class="kpi">
+        <div class="kpi-label">${label}</div>
+        <div class="kpi-value" style="color:${color}">${pct}%</div>
+        <div style="background:var(--border);border-radius:4px;height:4px;margin:6px 0;">
+          <div style="background:${color};width:${pct}%;height:4px;border-radius:4px;transition:width 0.3s;"></div>
+        </div>
+        <div class="kpi-sub">${current.toLocaleString()} / ${goal.toLocaleString()}${remaining > 0 ? ' · ' + remaining.toLocaleString() + ' to go' : ' · Goal reached!'}</div>
+        ${daysNote ? '<div class="kpi-sub">' + daysNote + '</div>' : ''}
+      </div>`;
+    }
+
+    document.getElementById('goal-cards').innerHTML =
+      goalCard('Total', curTotal, goalTotal) +
+      goalCard('St. George', curSg, goalSg) +
+      goalCard('Denver', curDen, goalDen);
+  }
+
+  document.getElementById('growth-start').addEventListener('change', e => buildGrowthCharts(e.target.value));
+  buildGrowthCharts(document.getElementById('growth-start').value);
+  renderGoals();
+}
 </script>
 </body>
 </html>
