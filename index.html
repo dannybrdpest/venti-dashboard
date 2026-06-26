@@ -761,7 +761,7 @@ if (RD) {
     const denMap = {};
     mDen.forEach(r => { denMap[r.m] = r; });
 
-    const rows = mSg.filter(r => r.m >= startStr && r.m < curM);
+    const rows = mSg.filter(r => r.m >= startStr);
     const labels = rows.map(r => r.m.slice(0,7));
     const sgNew  = rows.map(r => r.new);
     const denNew = rows.map(r => (denMap[r.m]?.new || 0));
@@ -792,7 +792,7 @@ if (RD) {
     const sgMap  = {}; mSg.forEach(r  => { sgMap[r.m]  = r; });
     const denMap = {}; mDen.forEach(r => { denMap[r.m] = r; });
 
-    const rows   = mTot.filter(r => r.m >= startStr && r.m < curM);
+    const rows   = mTot.filter(r => r.m >= startStr);
     const labels = rows.map(r => r.m.slice(0,7));
 
     const sgNet     = rows.map(r => { const s = sgMap[r.m];  return s ? s.new - s.c : 0; });
