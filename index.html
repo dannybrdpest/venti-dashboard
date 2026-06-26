@@ -81,7 +81,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 <div class="header">
   <h1>Venti — dashboard</h1>
-  <span class="updated">Last updated: June 26, 2026 02:57 PM</span>
+  <span class="updated">Last updated: June 26, 2026 03:12 PM</span>
 </div>
 
 <div class="tab-bar">
@@ -102,48 +102,92 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 <!-- ═══════════════════════════ GROWTH TAB ════════════════════════════ -->
 <div id="tab-growth" class="tab-panel">
 
-  <!-- New customer acquisition KPIs -->
+  <!-- 1. Annual growth -->
   <div class="section">
-    <div class="section-title">New customers — this month</div>
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-label">Total</div><div class="kpi-value" id="g-new-total">—</div></div>
-      <div class="kpi"><div class="kpi-label">St. George</div><div class="kpi-value" id="g-new-sg">—</div></div>
-      <div class="kpi"><div class="kpi-label">Denver</div><div class="kpi-value" id="g-new-den">—</div></div>
-      <div class="kpi"><div class="kpi-label">Net growth — total</div><div class="kpi-value" id="g-net-total">—</div><div class="kpi-sub" id="g-net-sub-total"></div></div>
-      <div class="kpi"><div class="kpi-label">Net growth — St. George</div><div class="kpi-value" id="g-net-sg">—</div></div>
-      <div class="kpi"><div class="kpi-label">Net growth — Denver</div><div class="kpi-value" id="g-net-den">—</div></div>
+    <div class="section-title">Annual growth — accounts &amp; ARR</div>
+    <div class="kpi-grid" id="g-annual-kpis"></div>
+    <div class="two-col" style="margin-top:10px;">
+      <div class="card">
+        <div class="card-title">New accounts by year</div>
+        <div class="chart-wrap" style="height:180px;"><canvas id="c-annual-acq"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">ARR added by year</div>
+        <div class="chart-wrap" style="height:180px;"><canvas id="c-annual-arr"></canvas></div>
+      </div>
     </div>
   </div>
 
-  <!-- Monthly acquisition trend -->
+  <!-- 2. Monthly growth -->
   <div class="section">
-    <div class="section-title">Monthly new customer acquisition</div>
+    <div class="section-title">Monthly growth — accounts &amp; ARR</div>
     <div class="control-row">
       <label for="growth-start">From:</label>
       <input type="date" id="growth-start" value="2024-01-01">
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:10px;">
+      <div class="card-title">New accounts per month</div>
       <div class="legend">
-        <span><span class="legend-dot" style="background:var(--blue);"></span>St. George</span>
-        <span><span class="legend-dot" style="background:var(--green);"></span>Denver</span>
+        <span><span class="legend-dot" style="background:#378ADD;"></span>St. George</span>
+        <span><span class="legend-dot" style="background:#1D9E75;"></span>Denver</span>
       </div>
-      <div class="chart-wrap" style="height:220px;"><canvas id="c-new-acq"></canvas></div>
+      <div class="chart-wrap" style="height:200px;"><canvas id="c-monthly-acq"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">ARR added per month</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#378ADD;"></span>St. George</span>
+        <span><span class="legend-dot" style="background:#1D9E75;"></span>Denver</span>
+      </div>
+      <div class="chart-wrap" style="height:200px;"><canvas id="c-monthly-arr"></canvas></div>
     </div>
   </div>
 
-  <!-- Gross adds vs cancellations -->
+  <!-- 3. Net growth -->
   <div class="section">
-    <div class="section-title">Gross adds vs cancellations</div>
-    <div class="card">
+    <div class="section-title">Net growth — accounts &amp; ARR churn</div>
+    <div class="kpi-grid" id="g-net-kpis"></div>
+    <div class="card" style="margin-top:10px; margin-bottom:10px;">
+      <div class="card-title">Net accounts per month (adds minus cancels)</div>
       <div class="legend">
-        <span><span class="legend-dot" style="background:var(--green);"></span>New customers</span>
-        <span><span class="legend-dot" style="background:var(--coral);"></span>Cancellations</span>
+        <span><span class="legend-dot" style="background:#378ADD;"></span>St. George</span>
+        <span><span class="legend-dot" style="background:#1D9E75;"></span>Denver</span>
+        <span><span class="legend-dot" style="background:#888;"></span>Total</span>
       </div>
-      <div class="chart-wrap" style="height:220px;"><canvas id="c-churn-growth"></canvas></div>
+      <div class="chart-wrap" style="height:200px;"><canvas id="c-net-acq"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Net ARR per month (ARR added minus ARR churned)</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#378ADD;"></span>St. George</span>
+        <span><span class="legend-dot" style="background:#1D9E75;"></span>Denver</span>
+        <span><span class="legend-dot" style="background:#888;"></span>Total</span>
+      </div>
+      <div class="chart-wrap" style="height:200px;"><canvas id="c-net-arr"></canvas></div>
     </div>
   </div>
 
-  <!-- Goal tracking -->
+  <!-- 4. Year-over-year -->
+  <div class="section">
+    <div class="section-title">Year-over-year ARR — YTD this year vs last year</div>
+    <div class="control-row" style="gap:6px;">
+      <span style="font-size:11px;color:var(--text-muted);">Office:</span>
+      <button class="tab-btn active" id="yoy-btn-total" onclick="setYoyOffice('total')" style="padding:3px 10px;font-size:11px;">All</button>
+      <button class="tab-btn" id="yoy-btn-sg"    onclick="setYoyOffice('sg')"    style="padding:3px 10px;font-size:11px;">St. George</button>
+      <button class="tab-btn" id="yoy-btn-den"   onclick="setYoyOffice('den')"   style="padding:3px 10px;font-size:11px;">Denver</button>
+    </div>
+    <div class="kpi-grid" id="g-yoy-kpis" style="margin-top:8px;"></div>
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title">Cumulative ARR added — monthly</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#378ADD;"></span><span id="yoy-label-this">2026</span></span>
+        <span><span class="legend-dot" style="background:#888; opacity:.6;"></span><span id="yoy-label-last">2025 (same period)</span></span>
+      </div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="c-yoy"></canvas></div>
+    </div>
+  </div>
+
+  <!-- 5. Goal tracking -->
   <div class="section">
     <div class="section-title">Goal tracking</div>
     <div class="card" style="margin-bottom:8px;">
@@ -257,11 +301,11 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
     <div class="section-title">Active vs good customers</div>
     <div class="kpi-grid">
       <div class="kpi"><div class="kpi-label">Active — total</div><div class="kpi-value" id="kpi-active-total">2,584</div></div>
-      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">2,193</div><div class="kpi-sub" id="kpi-good-pct">84.9% of active</div></div>
+      <div class="kpi"><div class="kpi-label">Good — total</div><div class="kpi-value" id="kpi-good-total">2,192</div><div class="kpi-sub" id="kpi-good-pct">84.8% of active</div></div>
       <div class="kpi"><div class="kpi-label">Active — St. George</div><div class="kpi-value" id="kpi-active-1">1,967</div></div>
       <div class="kpi"><div class="kpi-label">Good — St. George</div><div class="kpi-value" id="kpi-good-1">1,627</div></div>
       <div class="kpi"><div class="kpi-label">Active — Denver</div><div class="kpi-value" id="kpi-active-3">617</div></div>
-      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">566</div></div>
+      <div class="kpi"><div class="kpi-label">Good — Denver</div><div class="kpi-value" id="kpi-good-3">565</div></div>
     </div>
     <div class="card">
       <div class="legend">
@@ -309,7 +353,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   <div class="section">
     <div class="section-title">Retention by cohort</div>
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-label">0–12 mo — total</div><div class="kpi-value" id="kpi-ret012-total">82.4%</div></div>
+      <div class="kpi"><div class="kpi-label">0–12 mo — total</div><div class="kpi-value" id="kpi-ret012-total">82.5%</div></div>
       <div class="kpi"><div class="kpi-label">12–24 mo — total</div><div class="kpi-value" id="kpi-ret1224-total">57.5%</div></div>
       <div class="kpi"><div class="kpi-label">24+ mo — total</div><div class="kpi-value" id="kpi-ret24p-total">43.4%</div></div>
     </div>
@@ -382,7 +426,7 @@ function switchTab(name) {
 }
 
 Chart.register(ChartDataLabels);
-const RETENTION_DATA = {"cohort": {"total": {"pct": [82.4, 57.5, 43.4], "active": [877, 277, 1387], "total": [1064, 482, 3194]}, "sg": {"pct": [66.1, 57.5, 43.4], "active": [297, 277, 1387], "total": [449, 482, 3194]}, "den": {"pct": [94.3, 0, 0], "active": [580, 0, 0], "total": [615, 0, 0]}}, "tranche": {"total": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 646], "cancelled": [56, 830, 467, 409, 130, 258, 49]}, "sg": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 66], "cancelled": [56, 830, 467, 409, 130, 258, 14]}, "den": {"years": ["2026"], "active": [580], "cancelled": [35]}}, "monthly": {"total": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 51, "a": 2022}, {"m": "2026-05-01", "c": 71, "a": 2101}, {"m": "2026-06-01", "c": 80, "a": 2267}], "sg": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 46, "a": 2022}, {"m": "2026-05-01", "c": 54, "a": 1994}, {"m": "2026-06-01", "c": 60, "a": 1951}], "den": [{"m": "2026-04-01", "c": 5, "a": 0}, {"m": "2026-05-01", "c": 17, "a": 107}, {"m": "2026-06-01", "c": 20, "a": 316}]}};
+const RETENTION_DATA = {"cohort": {"total": {"pct": [82.5, 57.5, 43.4], "active": [879, 277, 1387], "total": [1066, 482, 3194]}, "sg": {"pct": [66.1, 57.5, 43.4], "active": [297, 277, 1387], "total": [449, 482, 3194]}, "den": {"pct": [94.3, 0, 0], "active": [582, 0, 0], "total": [617, 0, 0]}}, "tranche": {"total": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 648], "cancelled": [56, 830, 467, 409, 130, 258, 49]}, "sg": {"years": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "active": [20, 642, 331, 341, 164, 397, 66], "cancelled": [56, 830, 467, 409, 130, 258, 14]}, "den": {"years": ["2026"], "active": [582], "cancelled": [35]}}, "monthly": {"total": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 51, "a": 2022}, {"m": "2026-05-01", "c": 71, "a": 2101}, {"m": "2026-06-01", "c": 80, "a": 2267}], "sg": [{"m": "2020-09-01", "c": 0, "a": 0}, {"m": "2020-10-01", "c": 1, "a": 1}, {"m": "2020-11-01", "c": 2, "a": 35}, {"m": "2020-12-01", "c": 2, "a": 55}, {"m": "2021-01-01", "c": 1, "a": 71}, {"m": "2021-02-01", "c": 1, "a": 83}, {"m": "2021-03-01", "c": 5, "a": 145}, {"m": "2021-04-01", "c": 6, "a": 255}, {"m": "2021-05-01", "c": 10, "a": 379}, {"m": "2021-06-01", "c": 9, "a": 592}, {"m": "2021-07-01", "c": 17, "a": 882}, {"m": "2021-08-01", "c": 11, "a": 975}, {"m": "2021-09-01", "c": 13, "a": 1115}, {"m": "2021-10-01", "c": 11, "a": 1240}, {"m": "2021-11-01", "c": 17, "a": 1371}, {"m": "2021-12-01", "c": 8, "a": 1407}, {"m": "2022-01-01", "c": 21, "a": 1434}, {"m": "2022-02-01", "c": 22, "a": 1420}, {"m": "2022-03-01", "c": 23, "a": 1417}, {"m": "2022-04-01", "c": 25, "a": 1479}, {"m": "2022-05-01", "c": 41, "a": 1536}, {"m": "2022-06-01", "c": 53, "a": 1713}, {"m": "2022-07-01", "c": 51, "a": 1699}, {"m": "2022-08-01", "c": 46, "a": 1736}, {"m": "2022-09-01", "c": 31, "a": 1806}, {"m": "2022-10-01", "c": 35, "a": 1832}, {"m": "2022-11-01", "c": 28, "a": 1838}, {"m": "2022-12-01", "c": 37, "a": 1839}, {"m": "2023-01-01", "c": 29, "a": 1819}, {"m": "2023-02-01", "c": 28, "a": 1809}, {"m": "2023-03-01", "c": 30, "a": 1818}, {"m": "2023-04-01", "c": 32, "a": 1865}, {"m": "2023-05-01", "c": 32, "a": 1946}, {"m": "2023-06-01", "c": 29, "a": 2042}, {"m": "2023-07-01", "c": 40, "a": 2188}, {"m": "2023-08-01", "c": 44, "a": 2236}, {"m": "2023-09-01", "c": 37, "a": 2219}, {"m": "2023-10-01", "c": 27, "a": 2213}, {"m": "2023-11-01", "c": 35, "a": 2205}, {"m": "2023-12-01", "c": 19, "a": 2199}, {"m": "2024-01-01", "c": 37, "a": 2187}, {"m": "2024-02-01", "c": 47, "a": 2156}, {"m": "2024-03-01", "c": 44, "a": 2123}, {"m": "2024-04-01", "c": 57, "a": 2104}, {"m": "2024-05-01", "c": 44, "a": 2065}, {"m": "2024-06-01", "c": 18, "a": 2056}, {"m": "2024-07-01", "c": 25, "a": 2088}, {"m": "2024-08-01", "c": 41, "a": 2099}, {"m": "2024-09-01", "c": 34, "a": 2083}, {"m": "2024-10-01", "c": 24, "a": 2079}, {"m": "2024-11-01", "c": 25, "a": 2090}, {"m": "2024-12-01", "c": 21, "a": 2073}, {"m": "2025-01-01", "c": 17, "a": 2064}, {"m": "2025-02-01", "c": 27, "a": 2064}, {"m": "2025-03-01", "c": 22, "a": 2054}, {"m": "2025-04-01", "c": 28, "a": 2071}, {"m": "2025-05-01", "c": 36, "a": 2140}, {"m": "2025-06-01", "c": 40, "a": 2220}, {"m": "2025-07-01", "c": 43, "a": 2284}, {"m": "2025-08-01", "c": 36, "a": 2359}, {"m": "2025-09-01", "c": 27, "a": 2378}, {"m": "2025-10-01", "c": 46, "a": 2395}, {"m": "2025-11-01", "c": 27, "a": 2385}, {"m": "2025-12-01", "c": 24, "a": 2365}, {"m": "2026-01-01", "c": 30, "a": 2346}, {"m": "2026-02-01", "c": 35, "a": 2324}, {"m": "2026-03-01", "c": 298, "a": 2291}, {"m": "2026-04-01", "c": 46, "a": 2022}, {"m": "2026-05-01", "c": 54, "a": 1994}, {"m": "2026-06-01", "c": 60, "a": 1951}], "den": [{"m": "2026-04-01", "c": 5, "a": 0}, {"m": "2026-05-01", "c": 17, "a": 107}, {"m": "2026-06-01", "c": 20, "a": 316}]}};
 const MRR_RAW = {"total": 142190.19, "1": 76980.69, "3": 65209.5};
 
 const OFFICES = ['St. George','Denver'];
@@ -441,7 +485,7 @@ const PLACEHOLDER_ACV    = [469.63, 924.96];
 const PLACEHOLDER_AP_ON  = [1722, 582];
 const PLACEHOLDER_AP_OFF = [245, 35];
 const PLACEHOLDER_ACTIVE = [1967, 617];
-const PLACEHOLDER_GOOD   = [1627, 566];
+const PLACEHOLDER_GOOD   = [1627, 565];
 const PLACEHOLDER_AGE    = [39, 1];
 
 new Chart(document.getElementById('c-subs'), { type:'bar',
@@ -560,103 +604,262 @@ buildAttritionChart(document.getElementById('attrition-date').value);
 
 // ── Growth tab ────────────────────────────────────────────────────────────────
 if (RD) {
-  let acqChart = null, churnChart = null;
+  const gCharts = {};
+  let yoyOffice = 'total';
 
-  function buildGrowthCharts(startDateStr) {
-    const src = {
-      total: RD.monthly.total,
-      sg:    RD.monthly.sg,
-      den:   RD.monthly.den
-    };
+  // Parse a monthly array into enriched records
+  function parseMonthly(arr) {
+    return (arr || []).map(r => ({
+      m:        r.m,
+      year:     +r.m.slice(0,4),
+      mo:       +r.m.slice(5,7),
+      new:      r.new      || 0,
+      c:        r.c        || 0,
+      a:        r.a        || 0,
+      arr_new:  r.arr_new  || 0,
+      arr_lost: r.arr_lost || 0,
+    }));
+  }
 
-    // Filter months >= startDate, exclude current (partial) month
-    const todayStr = new Date().toISOString().slice(0,7) + '-01';
-    function filtered(arr) {
-      return arr.filter(r => r.m >= startDateStr && r.m < todayStr);
+  const mSg  = parseMonthly(RD.monthly.sg);
+  const mDen = parseMonthly(RD.monthly.den);
+
+  // Build total by merging SG + Den keyed by month
+  function mergeOffices(a, b) {
+    const map = {};
+    [...a, ...b].forEach(r => {
+      if (!map[r.m]) map[r.m] = { m:r.m, year:r.year, mo:r.mo, new:0, c:0, a:0, arr_new:0, arr_lost:0 };
+      map[r.m].new      += r.new;
+      map[r.m].c        += r.c;
+      map[r.m].a        += r.a;
+      map[r.m].arr_new  += r.arr_new;
+      map[r.m].arr_lost += r.arr_lost;
+    });
+    return Object.values(map).sort((a,b) => a.m < b.m ? -1 : 1);
+  }
+  const mTot = mergeOffices(mSg, mDen);
+
+  const today = new Date();
+  const thisYear = today.getFullYear();
+  const curM = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-01';
+
+  function fmtK(v) {
+    if (Math.abs(v) >= 1000000) return '$' + (v/1000000).toFixed(2) + 'M';
+    if (Math.abs(v) >= 1000)    return '$' + Math.round(v/1000) + 'k';
+    return '$' + Math.round(v);
+  }
+  function netSign(v) { return (v >= 0 ? '+' : '') + v.toLocaleString(); }
+  function netColor(v) { return v >= 0 ? 'var(--green)' : 'var(--coral)'; }
+
+  // ── Section 1: Annual growth ─────────────────────────────────────────────────
+  function buildAnnualCharts() {
+    // Group by year; for current year only count complete months (< curM)
+    function byYear(arr) {
+      const y = {};
+      arr.forEach(r => {
+        if (r.m >= curM) return; // exclude current partial month
+        if (!y[r.year]) y[r.year] = { new:0, arr_new:0, c:0, arr_lost:0 };
+        y[r.year].new      += r.new;
+        y[r.year].arr_new  += r.arr_new;
+        y[r.year].c        += r.c;
+        y[r.year].arr_lost += r.arr_lost;
+      });
+      return y;
     }
+    const totY = byYear(mTot);
+    const sgY  = byYear(mSg);
+    const denY = byYear(mDen);
 
-    const tot = filtered(src.total);
-    const sg  = filtered(src.sg);
+    const years = [...new Set([...Object.keys(totY), ...Object.keys(sgY), ...Object.keys(denY)])].sort();
 
-    // Build den map for lookup by month
-    const denMap = {};
-    src.den.forEach(r => { denMap[r.m] = r; });
-
-    const labels = tot.map(r => r.m.slice(0,7));
-
-    // New customers per month (use 'new' field if present, else derive from active diff)
-    function newCusts(arr, i) {
-      if (arr[i].new != null) return arr[i].new;
-      if (i + 1 < arr.length) return Math.max(0, arr[i+1].a - arr[i].a + arr[i].c);
-      return arr[i].new || 0;
+    // YTD KPI comparison: this year vs last year through same month
+    const lastYear = thisYear - 1;
+    const ytdThru = curM; // exclusive
+    function ytd(arr, yr) {
+      return arr.filter(r => r.year === yr && r.m < ytdThru).reduce((s,r) => ({ new: s.new+r.new, arr_new: s.arr_new+r.arr_new }), { new:0, arr_new:0 });
     }
+    const tyTot = ytd(mTot, thisYear), lyTot = ytd(mTot, lastYear);
+    const tySg  = ytd(mSg,  thisYear), lySg  = ytd(mSg,  lastYear);
+    const tyDen = ytd(mDen, thisYear), lyDen = ytd(mDen, lastYear);
 
-    const sgNew  = tot.map((r,i) => { const s = sg[i]; return s ? newCusts(sg, i) : 0; });
-    const denNew = tot.map((r,i) => { const d = denMap[r.m]; return d ? (d.new != null ? d.new : 0) : 0; });
-    const totNew = sgNew.map((v,i) => v + denNew[i]);
-
-    const sgCanc  = tot.map((r,i) => sg[i] ? sg[i].c : 0);
-    const denCanc = tot.map(r => denMap[r.m] ? denMap[r.m].c : 0);
-    const totCanc = sgCanc.map((v,i) => v + denCanc[i]);
-    const netGrowth = totNew.map((v,i) => v - totCanc[i]);
-
-    // KPI cards — current month (last in array)
-    const last = tot.length - 1;
-    if (last >= 0) {
-      const curM = todayStr; // current partial month
-      const curTot = src.total.find(r => r.m === curM);
-      const curSg  = src.sg.find(r => r.m === curM);
-      const curDen = src.den.find(r => r.m === curM);
-      const cNewSg  = curSg  ? (curSg.new  != null ? curSg.new  : 0) : 0;
-      const cNewDen = curDen ? (curDen.new != null ? curDen.new : 0) : 0;
-      const cNewTot = cNewSg + cNewDen;
-      const cCancSg  = curSg  ? curSg.c  : 0;
-      const cCancDen = curDen ? curDen.c : 0;
-      const cNetTot = cNewTot - (cCancSg + cCancDen);
-
-      document.getElementById('g-new-total').textContent = cNewTot.toLocaleString();
-      document.getElementById('g-new-sg').textContent    = cNewSg.toLocaleString();
-      document.getElementById('g-new-den').textContent   = cNewDen.toLocaleString();
-      const netEl = document.getElementById('g-net-total');
-      netEl.textContent = (cNetTot >= 0 ? '+' : '') + cNetTot.toLocaleString();
-      netEl.style.color = cNetTot >= 0 ? 'var(--green)' : 'var(--coral)';
-      const netSg = cNewSg - cCancSg;
-      const netSgEl = document.getElementById('g-net-sg');
-      netSgEl.textContent = (netSg >= 0 ? '+' : '') + netSg.toLocaleString();
-      netSgEl.style.color = netSg >= 0 ? 'var(--green)' : 'var(--coral)';
-      const netDen = cNewDen - cCancDen;
-      const netDenEl = document.getElementById('g-net-den');
-      netDenEl.textContent = (netDen >= 0 ? '+' : '') + netDen.toLocaleString();
-      netDenEl.style.color = netDen >= 0 ? 'var(--green)' : 'var(--coral)';
+    function ytdCard(label, ty, ly) {
+      const diffAcc = ty.new - ly.new;
+      const diffArr = ty.arr_new - ly.arr_new;
+      return `<div class="kpi">
+        <div class="kpi-label">${label} — YTD</div>
+        <div class="kpi-value">${ty.new.toLocaleString()} accts</div>
+        <div class="kpi-sub" style="color:${netColor(diffAcc)}">${netSign(diffAcc)} vs ${lastYear}</div>
+        <div class="kpi-sub">${fmtK(ty.arr_new)} ARR <span style="color:${netColor(diffArr)}">(${diffArr>=0?'+':''}${fmtK(diffArr)})</span></div>
+      </div>`;
     }
+    document.getElementById('g-annual-kpis').innerHTML =
+      ytdCard('Total', tyTot, lyTot) +
+      ytdCard('St. George', tySg, lySg) +
+      ytdCard('Denver', tyDen, lyDen);
 
-    // Acquisition chart
-    if (acqChart) acqChart.destroy();
-    acqChart = new Chart(document.getElementById('c-new-acq'), { type:'bar',
+    // Annual bar charts
+    const labels = years.map(y => y === String(thisYear) ? y + ' YTD' : y);
+    function barData(yObj, key, years) { return years.map(y => yObj[y] ? yObj[y][key] : 0); }
+
+    if (gCharts.annualAcq) gCharts.annualAcq.destroy();
+    gCharts.annualAcq = new Chart(document.getElementById('c-annual-acq'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'St. George', data:sgNew,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{ display:false } },
-        { label:'Denver',     data:denNew, backgroundColor:'#1D9E75', borderRadius:2, datalabels:{ display:false } }
+        { label:'St. George', data:barData(sgY, 'new', years),  backgroundColor:'#378ADD', borderRadius:3, datalabels:{display:false} },
+        { label:'Denver',     data:barData(denY,'new', years),  backgroundColor:'#1D9E75', borderRadius:3, datalabels:{display:false} },
       ]},
-      options:{ ...base, scales:{ x:{ stacked:true, ...sx(), grid:{ color:gridColor } }, y:{ stacked:true, ...sy(v=>v.toLocaleString()), grid:{ color:gridColor } } } }
+      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
     });
 
-    // Churn vs growth chart
-    if (churnChart) churnChart.destroy();
-    churnChart = new Chart(document.getElementById('c-churn-growth'), { type:'bar',
+    if (gCharts.annualArr) gCharts.annualArr.destroy();
+    gCharts.annualArr = new Chart(document.getElementById('c-annual-arr'), { type:'bar',
       data:{ labels, datasets:[
-        { label:'New customers',  data:totNew,  backgroundColor:'#1D9E75', borderRadius:2, datalabels:{ display:false } },
-        { label:'Cancellations',  data:totCanc.map(v => -v), backgroundColor:'#D85A30', borderRadius:2, datalabels:{ display:false } },
+        { label:'St. George', data:barData(sgY, 'arr_new', years),  backgroundColor:'#378ADD', borderRadius:3, datalabels:{display:false} },
+        { label:'Denver',     data:barData(denY,'arr_new', years),  backgroundColor:'#1D9E75', borderRadius:3, datalabels:{display:false} },
       ]},
-      options:{ ...base,
-        scales:{
-          x:{ stacked:true, ...sx(), grid:{ color:gridColor } },
-          y:{ stacked:true, ...sy(v => Math.abs(v).toLocaleString()), grid:{ color:gridColor } }
-        }
-      }
+      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
     });
   }
 
-  // Goal tracking — persist in localStorage
+  // ── Section 2: Monthly growth ────────────────────────────────────────────────
+  function buildMonthlyCharts(startStr) {
+    const denMap = {};
+    mDen.forEach(r => { denMap[r.m] = r; });
+
+    const rows = mSg.filter(r => r.m >= startStr && r.m < curM);
+    const labels = rows.map(r => r.m.slice(0,7));
+    const sgNew  = rows.map(r => r.new);
+    const denNew = rows.map(r => (denMap[r.m]?.new || 0));
+    const sgArr  = rows.map(r => r.arr_new);
+    const denArr = rows.map(r => (denMap[r.m]?.arr_new || 0));
+
+    if (gCharts.monthlyAcq) gCharts.monthlyAcq.destroy();
+    gCharts.monthlyAcq = new Chart(document.getElementById('c-monthly-acq'), { type:'bar',
+      data:{ labels, datasets:[
+        { label:'St. George', data:sgNew,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{display:false} },
+        { label:'Denver',     data:denNew, backgroundColor:'#1D9E75', borderRadius:2, datalabels:{display:false} },
+      ]},
+      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+    });
+
+    if (gCharts.monthlyArr) gCharts.monthlyArr.destroy();
+    gCharts.monthlyArr = new Chart(document.getElementById('c-monthly-arr'), { type:'bar',
+      data:{ labels, datasets:[
+        { label:'St. George', data:sgArr,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{display:false} },
+        { label:'Denver',     data:denArr, backgroundColor:'#1D9E75', borderRadius:2, datalabels:{display:false} },
+      ]},
+      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+    });
+  }
+
+  // ── Section 3: Net growth ────────────────────────────────────────────────────
+  function buildNetCharts(startStr) {
+    const sgMap  = {}; mSg.forEach(r  => { sgMap[r.m]  = r; });
+    const denMap = {}; mDen.forEach(r => { denMap[r.m] = r; });
+
+    const rows   = mTot.filter(r => r.m >= startStr && r.m < curM);
+    const labels = rows.map(r => r.m.slice(0,7));
+
+    const sgNet     = rows.map(r => { const s = sgMap[r.m];  return s ? s.new - s.c : 0; });
+    const denNet    = rows.map(r => { const d = denMap[r.m]; return d ? d.new - d.c : 0; });
+    const totNet    = rows.map(r => r.new - r.c);
+    const sgNetArr  = rows.map(r => { const s = sgMap[r.m];  return s ? s.arr_new - s.arr_lost : 0; });
+    const denNetArr = rows.map(r => { const d = denMap[r.m]; return d ? d.arr_new - d.arr_lost : 0; });
+    const totNetArr = rows.map(r => r.arr_new - r.arr_lost);
+
+    // KPI cards — current month (partial, include today's data)
+    const curSg  = mSg.find(r => r.m === curM);
+    const curDen = mDen.find(r => r.m === curM);
+    const curTot = mTot.find(r => r.m === curM);
+    function netKpi(label, r) {
+      if (!r) return `<div class="kpi"><div class="kpi-label">${label} — this month</div><div class="kpi-value">—</div></div>`;
+      const na = r.new - r.c;
+      const narr = r.arr_new - r.arr_lost;
+      return `<div class="kpi">
+        <div class="kpi-label">${label} — this month</div>
+        <div class="kpi-value" style="color:${netColor(na)}">${netSign(na)} accts</div>
+        <div class="kpi-sub" style="color:${netColor(narr)}">${narr>=0?'+':''}${fmtK(narr)} ARR</div>
+        <div class="kpi-sub">${r.new} added · ${r.c} cancelled</div>
+      </div>`;
+    }
+    document.getElementById('g-net-kpis').innerHTML =
+      netKpi('Total', curTot) + netKpi('St. George', curSg) + netKpi('Denver', curDen);
+
+    if (gCharts.netAcq) gCharts.netAcq.destroy();
+    gCharts.netAcq = new Chart(document.getElementById('c-net-acq'), { type:'bar',
+      data:{ labels, datasets:[
+        { label:'St. George', data:sgNet,  backgroundColor:'#378ADD88', borderRadius:2, datalabels:{display:false} },
+        { label:'Denver',     data:denNet, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{display:false} },
+        { label:'Total',      data:totNet, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{display:false} },
+      ]},
+      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+    });
+
+    if (gCharts.netArr) gCharts.netArr.destroy();
+    gCharts.netArr = new Chart(document.getElementById('c-net-arr'), { type:'bar',
+      data:{ labels, datasets:[
+        { label:'St. George', data:sgNetArr,  backgroundColor:'#378ADD88', borderRadius:2, datalabels:{display:false} },
+        { label:'Denver',     data:denNetArr, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{display:false} },
+        { label:'Total',      data:totNetArr, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{display:false} },
+      ]},
+      options:{ ...base, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+    });
+  }
+
+  // ── Section 4: YoY ──────────────────────────────────────────────────────────
+  function buildYoyChart() {
+    const src = yoyOffice === 'sg' ? mSg : yoyOffice === 'den' ? mDen : mTot;
+    const lastYear = thisYear - 1;
+
+    // Month slots Jan–current month (by number)
+    const maxMo = today.getMonth() + 1; // 1-based current month
+    const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].slice(0, maxMo);
+
+    function cumArr(yr) {
+      let cum = 0;
+      return Array.from({length: maxMo}, (_,i) => {
+        const mo = i + 1;
+        const key = `${yr}-${String(mo).padStart(2,'0')}-01`;
+        const row = src.find(r => r.m === key);
+        cum += row ? row.arr_new : 0;
+        return cum;
+      });
+    }
+
+    const thisData = cumArr(thisYear);
+    const lastData = cumArr(lastYear);
+
+    // YoY KPI summary
+    const totThis = thisData[maxMo - 1];
+    const totLast = lastData[maxMo - 1];
+    const diff = totThis - totLast;
+    const pct  = totLast > 0 ? Math.round(diff / totLast * 100) : null;
+    const label = yoyOffice === 'sg' ? 'St. George' : yoyOffice === 'den' ? 'Denver' : 'All offices';
+    document.getElementById('g-yoy-kpis').innerHTML = `
+      <div class="kpi">
+        <div class="kpi-label">${label} — ARR added YTD ${thisYear}</div>
+        <div class="kpi-value">${fmtK(totThis)}</div>
+        <div class="kpi-sub" style="color:${netColor(diff)}">${diff>=0?'+':''}${fmtK(diff)} vs ${lastYear}${pct !== null ? ' (' + (pct>=0?'+':'') + pct + '%)' : ''}</div>
+      </div>`;
+    document.getElementById('yoy-label-this').textContent = String(thisYear);
+    document.getElementById('yoy-label-last').textContent = `${lastYear} (same period)`;
+
+    if (gCharts.yoy) gCharts.yoy.destroy();
+    gCharts.yoy = new Chart(document.getElementById('c-yoy'), { type:'line',
+      data:{ labels: monthLabels, datasets:[
+        { label: String(thisYear), data: thisData, borderColor:'#378ADD', backgroundColor:'#378ADD22', fill:true, tension:0.3, pointRadius:3, datalabels:{display:false} },
+        { label: String(lastYear), data: lastData, borderColor:'#888', backgroundColor:'transparent', borderDash:[4,3], tension:0.3, pointRadius:2, datalabels:{display:false} },
+      ]},
+      options:{ ...base, scales:{ x:{ ...sx() }, y:{ ...sy(v=>fmtK(v)) } } }
+    });
+  }
+
+  window.setYoyOffice = function(office) {
+    yoyOffice = office;
+    ['total','sg','den'].forEach(o => document.getElementById('yoy-btn-'+o).classList.toggle('active', o === office));
+    buildYoyChart();
+  };
+
+  // ── Goal tracking ─────────────────────────────────────────────────────────────
   const GOAL_KEYS = ['goal-total','goal-sg','goal-den','goal-date'];
   GOAL_KEYS.forEach(k => {
     const saved = localStorage.getItem('venti-'+k);
@@ -672,19 +875,14 @@ if (RD) {
     const goalSg    = +document.getElementById('goal-sg').value    || 0;
     const goalDen   = +document.getElementById('goal-den').value   || 0;
     const goalDate  = document.getElementById('goal-date').value;
-
-    // Current actives from KPI elements
-    const curTotal = +(document.getElementById('kpi-active-total')?.textContent.replace(/,/g,'')) || 0;
-    const curSg    = +(document.getElementById('kpi-active-1')?.textContent.replace(/,/g,''))     || 0;
-    const curDen   = +(document.getElementById('kpi-active-3')?.textContent.replace(/,/g,''))     || 0;
-
-    // Days remaining
+    const curTotal  = +(document.getElementById('kpi-active-total')?.textContent.replace(/,/g,'')) || 0;
+    const curSg     = +(document.getElementById('kpi-active-1')?.textContent.replace(/,/g,''))     || 0;
+    const curDen    = +(document.getElementById('kpi-active-3')?.textContent.replace(/,/g,''))     || 0;
     let daysNote = '';
     if (goalDate) {
       const days = Math.ceil((new Date(goalDate) - new Date()) / 86400000);
       daysNote = days > 0 ? days + ' days remaining' : 'Past target date';
     }
-
     function goalCard(label, current, goal) {
       if (!goal) return '';
       const pct = Math.min(100, Math.round(current / goal * 100));
@@ -696,19 +894,26 @@ if (RD) {
         <div style="background:var(--border);border-radius:4px;height:4px;margin:6px 0;">
           <div style="background:${color};width:${pct}%;height:4px;border-radius:4px;transition:width 0.3s;"></div>
         </div>
-        <div class="kpi-sub">${current.toLocaleString()} / ${goal.toLocaleString()}${remaining > 0 ? ' · ' + remaining.toLocaleString() + ' to go' : ' · Goal reached!'}</div>
-        ${daysNote ? '<div class="kpi-sub">' + daysNote + '</div>' : ''}
+        <div class="kpi-sub">${current.toLocaleString()} / ${goal.toLocaleString()}${remaining > 0 ? ' · '+remaining.toLocaleString()+' to go' : ' · Goal reached!'}</div>
+        ${daysNote ? '<div class="kpi-sub">'+daysNote+'</div>' : ''}
       </div>`;
     }
-
     document.getElementById('goal-cards').innerHTML =
       goalCard('Total', curTotal, goalTotal) +
       goalCard('St. George', curSg, goalSg) +
       goalCard('Denver', curDen, goalDen);
   }
 
-  document.getElementById('growth-start').addEventListener('change', e => buildGrowthCharts(e.target.value));
-  buildGrowthCharts(document.getElementById('growth-start').value);
+  const startInput = document.getElementById('growth-start');
+  function rebuildMonthly() {
+    buildMonthlyCharts(startInput.value);
+    buildNetCharts(startInput.value);
+  }
+  startInput.addEventListener('change', rebuildMonthly);
+
+  buildAnnualCharts();
+  rebuildMonthly();
+  buildYoyChart();
   renderGoals();
 }
 </script>
