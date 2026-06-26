@@ -688,7 +688,7 @@ if (RD) {
     function byYear(arr) {
       const y = {};
       arr.forEach(r => {
-        if (r.m >= curM) return; // exclude current partial month
+        // include all months — current month is partial but chart is labeled YTD
         if (!y[r.year]) y[r.year] = { new:0, arr_new:0, c:0, arr_lost:0 };
         y[r.year].new      += r.new;
         y[r.year].arr_new  += r.arr_new;
@@ -705,9 +705,11 @@ if (RD) {
 
     // YTD KPI comparison: this year vs last year through same month
     const lastYear = thisYear - 1;
-    const ytdThru = curM; // exclusive
+    const nextM = (() => { const d = new Date(today.getFullYear(), today.getMonth()+1, 1); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-01'; })();
     function ytd(arr, yr) {
-      return arr.filter(r => r.year === yr && r.m < ytdThru).reduce((s,r) => ({ new: s.new+r.new, arr_new: s.arr_new+r.arr_new }), { new:0, arr_new:0 });
+      // for this year include current partial month; for last year match same month range
+      const thru = yr === thisYear ? nextM : curM;
+      return arr.filter(r => r.year === yr && r.m < thru).reduce((s,r) => ({ new: s.new+r.new, arr_new: s.arr_new+r.arr_new }), { new:0, arr_new:0 });
     }
     const tyTot = ytd(mTot, thisYear), lyTot = ytd(mTot, lastYear);
     const tySg  = ytd(mSg,  thisYear), lySg  = ytd(mSg,  lastYear);
