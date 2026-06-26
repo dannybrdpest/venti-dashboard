@@ -644,6 +644,18 @@ if (RD) {
   const thisYear = today.getFullYear();
   const curM = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-01';
 
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  // "Jan '24" on first month of year, "Feb", "Mar"... on subsequent months
+  function fmtMonthLabels(monthKeys) {
+    let lastYear = null;
+    return monthKeys.map(m => {
+      const yr = +m.slice(0,4), mo = +m.slice(5,7);
+      const label = yr !== lastYear ? MON[mo-1] + " '" + String(yr).slice(2) : MON[mo-1];
+      lastYear = yr;
+      return label;
+    });
+  }
+
   function fmtK(v) {
     if (Math.abs(v) >= 1000000) return '$' + (v/1000000).toFixed(2) + 'M';
     if (Math.abs(v) >= 1000)    return '$' + Math.round(v/1000) + 'k';
@@ -762,7 +774,7 @@ if (RD) {
     mDen.forEach(r => { denMap[r.m] = r; });
 
     const rows = mSg.filter(r => r.m >= startStr);
-    const labels = rows.map(r => r.m.slice(0,7));
+    const labels = fmtMonthLabels(rows.map(r => r.m));
     const sgNew  = rows.map(r => r.new);
     const denNew = rows.map(r => (denMap[r.m]?.new || 0));
     const sgArr  = rows.map(r => r.arr_new);
@@ -793,7 +805,7 @@ if (RD) {
     const denMap = {}; mDen.forEach(r => { denMap[r.m] = r; });
 
     const rows   = mTot.filter(r => r.m >= startStr);
-    const labels = rows.map(r => r.m.slice(0,7));
+    const labels = fmtMonthLabels(rows.map(r => r.m));
 
     const sgNet     = rows.map(r => { const s = sgMap[r.m];  return s ? s.new - s.c : 0; });
     const denNet    = rows.map(r => { const d = denMap[r.m]; return d ? d.new - d.c : 0; });
