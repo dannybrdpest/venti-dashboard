@@ -645,15 +645,24 @@ if (RD) {
   const curM = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-01';
 
   const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  // "Jan '24" on first month of year, "Feb", "Mar"... on subsequent months
-  function fmtMonthLabels(monthKeys) {
-    let lastYear = null;
-    return monthKeys.map(m => {
-      const yr = +m.slice(0,4), mo = +m.slice(5,7);
-      const label = yr !== lastYear ? MON[mo-1] + " '" + String(yr).slice(2) : MON[mo-1];
-      lastYear = yr;
-      return label;
-    });
+
+  // Build x-axis options for a multi-month chart; labels rotate and show year on Jan
+  function sxMonth(monthKeys) {
+    return {
+      ticks: {
+        color: tickColor,
+        font: { size: 9 },
+        maxRotation: 45, minRotation: 0,
+        autoSkip: true, maxTicksLimit: 24,
+        callback: (val, idx) => {
+          const m = monthKeys[idx];
+          if (!m) return '';
+          const yr = +m.slice(0,4), mo = +m.slice(5,7);
+          return mo === 1 ? MON[mo-1] + " '" + String(yr).slice(2) : MON[mo-1];
+        }
+      },
+      grid: { color: gridColor }
+    };
   }
 
   function fmtK(v) {
@@ -773,12 +782,13 @@ if (RD) {
     const denMap = {};
     mDen.forEach(r => { denMap[r.m] = r; });
 
-    const rows = mSg.filter(r => r.m >= startStr);
-    const labels = fmtMonthLabels(rows.map(r => r.m));
-    const sgNew  = rows.map(r => r.new);
-    const denNew = rows.map(r => (denMap[r.m]?.new || 0));
-    const sgArr  = rows.map(r => r.arr_new);
-    const denArr = rows.map(r => (denMap[r.m]?.arr_new || 0));
+    const rows    = mSg.filter(r => r.m >= startStr);
+    const rowKeys = rows.map(r => r.m);
+    const labels  = rowKeys.map(m => MON[+m.slice(5,7)-1]);
+    const sgNew   = rows.map(r => r.new);
+    const denNew  = rows.map(r => (denMap[r.m]?.new || 0));
+    const sgArr   = rows.map(r => r.arr_new);
+    const denArr  = rows.map(r => (denMap[r.m]?.arr_new || 0));
 
     if (gCharts.monthlyAcq) gCharts.monthlyAcq.destroy();
     gCharts.monthlyAcq = new Chart(document.getElementById('c-monthly-acq'), { type:'bar',
@@ -786,7 +796,7 @@ if (RD) {
         { label:'St. George', data:sgNew,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{ display:false } },
         { label:'Denver',     data:denNew, backgroundColor:'#1D9E75', borderRadius:2, datalabels: dlStackTotal([sgNew,denNew], v=>v.toLocaleString()) },
       ]},
-      options:{ ...base, layout:{ padding:{ top:16 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+      options:{ ...base, layout:{ padding:{ top:16 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
     });
 
     if (gCharts.monthlyArr) gCharts.monthlyArr.destroy();
@@ -795,7 +805,7 @@ if (RD) {
         { label:'St. George', data:sgArr,  backgroundColor:'#378ADD', borderRadius:2, datalabels:{ display:false } },
         { label:'Denver',     data:denArr, backgroundColor:'#1D9E75', borderRadius:2, datalabels: dlStackTotal([sgArr,denArr], fmtK) },
       ]},
-      options:{ ...base, layout:{ padding:{ top:16 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+      options:{ ...base, layout:{ padding:{ top:16 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
     });
   }
 
@@ -804,8 +814,9 @@ if (RD) {
     const sgMap  = {}; mSg.forEach(r  => { sgMap[r.m]  = r; });
     const denMap = {}; mDen.forEach(r => { denMap[r.m] = r; });
 
-    const rows   = mTot.filter(r => r.m >= startStr);
-    const labels = fmtMonthLabels(rows.map(r => r.m));
+    const rows    = mTot.filter(r => r.m >= startStr);
+    const rowKeys = rows.map(r => r.m);
+    const labels  = rowKeys.map(m => MON[+m.slice(5,7)-1]);
 
     const sgNet     = rows.map(r => { const s = sgMap[r.m];  return s ? s.new - s.c : 0; });
     const denNet    = rows.map(r => { const d = denMap[r.m]; return d ? d.new - d.c : 0; });
@@ -839,7 +850,7 @@ if (RD) {
         { label:'Denver',     data:denNet, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{ display:false } },
         { label:'Total',      data:totNet, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{ ...dlNet, font:{ size:8, weight:'500' } } },
       ]},
-      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
     });
 
     if (gCharts.netArr) gCharts.netArr.destroy();
@@ -849,7 +860,7 @@ if (RD) {
         { label:'Denver',     data:denNetArr, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{ display:false } },
         { label:'Total',      data:totNetArr, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{ ...dlNetArr, font:{ size:8, weight:'500' } } },
       ]},
-      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sx() }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
     });
   }
 
