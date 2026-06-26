@@ -850,7 +850,7 @@ if (RD) {
         { label:'Denver',     data:denNet, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{ display:false } },
         { label:'Total',      data:totNet, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{ ...dlNet, font:{ size:8, weight:'500' } } },
       ]},
-      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>v.toLocaleString()) } } }
+      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>v.toLocaleString()), grid:{ color: ctx => ctx.tick.value === 0 ? (isDark?'#bbb':'#333') : gridColor, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 } } } }
     });
 
     if (gCharts.netArr) gCharts.netArr.destroy();
@@ -860,7 +860,7 @@ if (RD) {
         { label:'Denver',     data:denNetArr, backgroundColor:'#1D9E7588', borderRadius:2, datalabels:{ display:false } },
         { label:'Total',      data:totNetArr, type:'line', borderColor:'#888', backgroundColor:'transparent', borderWidth:1.5, pointRadius:2, datalabels:{ ...dlNetArr, font:{ size:8, weight:'500' } } },
       ]},
-      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>fmtK(v)) } } }
+      options:{ ...base, layout:{ padding:{ top:16, bottom:8 } }, scales:{ x:{ stacked:true, ...sxMonth(rowKeys) }, y:{ stacked:true, ...sy(v=>fmtK(v)), grid:{ color: ctx => ctx.tick.value === 0 ? (isDark?'#bbb':'#333') : gridColor, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 } } } }
     });
   }
 
